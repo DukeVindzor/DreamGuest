@@ -5,9 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import ru.tehkode.permissions.PermissionManager;
-
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
