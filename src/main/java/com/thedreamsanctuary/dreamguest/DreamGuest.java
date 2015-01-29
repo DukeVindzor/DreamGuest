@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.PermissionManager;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import com.thedreamsanctuary.dreamguest.command.admin.Ban;
 import com.thedreamsanctuary.dreamguest.command.admin.Kick;
@@ -24,6 +25,7 @@ public class DreamGuest extends JavaPlugin{
 	private static PermissionManager pex;
 	public void onEnable(){
 		this.saveDefaultConfig();
+		this.pex = PermissionsEx.getPermissionManager();
 		if(!JSON.createFile("bans")){
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;

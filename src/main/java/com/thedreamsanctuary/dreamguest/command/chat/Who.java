@@ -71,23 +71,6 @@ public class Who extends CommandHandler{
 		sender.sendMessage(ChatColor.DARK_GRAY + "------------------------------");
 		return true;
 	}
-	
-	private Map<PermissionGroup, List<Player>> sortGroupMap(Map<PermissionGroup, List<Player>> groupMap){
-		Map<PermissionGroup, List<Player>> sortedMap = new HashMap<PermissionGroup, List<Player>>();
-		Set<PermissionGroup> keys = groupMap.keySet();
-		PermissionGroup[] array = new PermissionGroup[keys.size()];
-		int i = 0;
-		for(PermissionGroup key : keys){
-			array[i] = key;
-			i++;
-		}
-		Arrays.sort(array);
-		for(PermissionGroup key : array){
-			System.out.println(key);
-			sortedMap.put(key, groupMap.get(key));
-		}
-		return sortedMap;
-	}
 	private String getLegend(boolean canSeeFQ){
 		final TreeMap<PermissionGroup, Integer> groupCount = new TreeMap<PermissionGroup, Integer>();
 		List<PermissionGroup> groups = pex.getGroupList();
