@@ -1,5 +1,6 @@
 package com.thedreamsanctuary.dreamguest.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -70,6 +71,9 @@ public class PlayerEventListener implements Listener{
     {
         if (event.getPlayer() != null)
         {
+        	if(event.getMessage().startsWith("/afk")){
+        		return;
+        	}
         	AfkHandler.playerReturned(event.getPlayer());
         }
     }
