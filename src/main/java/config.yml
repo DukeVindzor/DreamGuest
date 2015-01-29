@@ -9,19 +9,19 @@
 # accepted placeholders : ${no}, ${no-1}, ${n} 
 # --------------------------------------------
 
-join-message: §8(§7${no}§8) §f${n}§7 joined
-leave-message: §8(§7${no-1}§8) §f${n}§7 left
+join-message: "&8(&7${no}&8) &f${n}&7 joined"
+leave-message: "&8(&7${no-1}§8) &f${n}&7 left"
 #only used if player randomly loses connection, for /kick see "KICK / BAN MANAGER"
-kick-message: §8(§7${no}§8) §f${n}§4 was kicked out
+kick-message: "&8(&7${no}&8) &f${n}&4 was kicked out"
 
 # --------------------------------------------
 # KICK / BAN MANAGER
 # accepted placeholders : ${n}, ${reason}, ${admin}
 # --------------------------------------------
 
-admin-kick-message: "§8Player §c${n}§8 has been kicked by §c${admin}§8 for: §9${reason}"
-admin-ban-message: "§8Player §c${n}§8 has been banned by §c${admin}§8 for: §9${reason}"
-admin-unban-message: "§8Player §c${n}§8 has been unbanned by §c${admin}"
+admin-kick-message: "&8Player &c${n}&8 has been kicked by &c${admin}&8 for: &9${reason}"
+admin-ban-message: "&8Player &c${n}&8 has been banned by &c${admin}&8 for: &9${reason}"
+admin-unban-message: "&8Player &c${n}&8 has been unbanned by &c${admin}"
 default-reason: asshat
 
 # --------------------------------------------
@@ -30,7 +30,7 @@ default-reason: asshat
 # --------------------------------------------
 
 #specify the format you want afk messages to appear in
-afk-format: "§3${n} §8${message}"
+afk-format: "&3${n} &8${message}"
 
 # set the default afk message
 default-afk-message: "is now afk"
