@@ -13,7 +13,7 @@ import ru.tehkode.permissions.PermissionManager;
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
 import com.thedreamsanctuary.dreamguest.util.BanResult;
-import com.thedreamsanctuary.dreamguest.util.Banlist;
+import com.thedreamsanctuary.dreamguest.util.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
@@ -38,7 +38,7 @@ public class Unban extends CommandHandler{
 	
 	public boolean unbanByUUID(String target, CommandSender sender){
 		UUID playerUUID = UUID.fromString(target);
-		BanResult result = Banlist.unbanPlayer(playerUUID);
+		BanResult result = BanHandler.unbanPlayer(playerUUID);
 		switch(result){
 		case SUCCESS:
 			target = Bukkit.getOfflinePlayer(playerUUID).getName();

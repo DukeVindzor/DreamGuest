@@ -2,18 +2,17 @@ package com.thedreamsanctuary.dreamguest.command.admin;
 
 import java.util.UUID;
 
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import ru.tehkode.permissions.PermissionManager;
-
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
 import com.thedreamsanctuary.dreamguest.util.BanResult;
-import com.thedreamsanctuary.dreamguest.util.Banlist;
+import com.thedreamsanctuary.dreamguest.util.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
@@ -56,7 +55,7 @@ public class Ban extends CommandHandler{
 		}else{
 			playerUUID = player.getUniqueId();
 		}
-		BanResult result = Banlist.addPlayer(playerUUID, reason);
+		BanResult result = BanHandler.addPlayer(playerUUID, reason);
 		switch(result){
 		case SUCCESS:
 			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender, target, reason));
@@ -68,10 +67,13 @@ public class Ban extends CommandHandler{
 			sender.sendMessage(ChatColor.RED + "That player is already banned.");
 			break;
 		case ERROR:
-			player.setBanned(true);
+			BanList bl = Bukkit.getBanList(BanList.Type.NAME);
+			bl.addBan(player.getDisplayName(), reason, null, sender.getName());
 			player.kickPlayer(reason);
 			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender, player.getDisplayName(), reason));
 			sender.sendMessage(ChatColor.RED + "Error parsing ban file, banning via bukkit API. Please notify an Administrator of this.");
+			break;
+		default:
 			break;
 		}
 		return true;

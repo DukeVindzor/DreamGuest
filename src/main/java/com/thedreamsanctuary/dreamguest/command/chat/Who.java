@@ -1,13 +1,10 @@
 package com.thedreamsanctuary.dreamguest.command.chat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,17 +13,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import ru.tehkode.permissions.PermissionGroup;
-import ru.tehkode.permissions.PermissionManager;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
 import com.thedreamsanctuary.dreamguest.handlers.AfkHandler;
+import com.thedreamsanctuary.dreamguest.handlers.PermissionHandler;
 
 public class Who extends CommandHandler{
-	private final PermissionManager pex;
 	public Who(DreamGuest pl) {
 		super(pl);
-		this.pex = pl.getPermissionManager();
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -36,7 +31,7 @@ public class Who extends CommandHandler{
 		sender.sendMessage(ChatColor.DARK_GRAY + "------------------------------");
 		sender.sendMessage(getLegend(canSeeFQ));
 		
-		for(Entry<PermissionGroup, List<Player>> entry : groupMap.descendingMap().entrySet()){
+		for(Entry<PermissionGroup, List<Player>> entry : groupMap.entrySet()){
 			final PermissionGroup group = entry.getKey();
 			final String groupName = group.getName();
 			final StringBuilder groupStrBuilder = new StringBuilder();
@@ -73,7 +68,7 @@ public class Who extends CommandHandler{
 	}
 	private String getLegend(boolean canSeeFQ){
 		final TreeMap<PermissionGroup, Integer> groupCount = new TreeMap<PermissionGroup, Integer>();
-		List<PermissionGroup> groups = pex.getGroupList();
+		TreeSet<PermissionGroup> groups = PermissionHandler.getGroups();
 		for(PermissionGroup group : groups){
 			String groupName = group.getName();
 			groupCount.put(group, 0);
@@ -84,13 +79,13 @@ public class Who extends CommandHandler{
 						continue;
 					}
 				}
-				if(pex.getUser(player).getGroupNames()[0].equals(groupName)){
+				if(PermissionHandler.getPlayerGroup(player).equals(groupName)){
 					groupCount.put(group, groupCount.get(group)+1);
 				}
 			}
 		}
 		final StringBuilder stringBuilder = new StringBuilder();
-		for(PermissionGroup group : groupCount.descendingKeySet()){
+		for(PermissionGroup group : groupCount.keySet()){
 			final int groupSize = groupCount.get(group);
 			final char groupChar = this.getGroupChar(group.getName());
 			stringBuilder.append(ChatColor.DARK_GRAY).append("[").append(this.getColor(group)).append(groupChar).append(":").append(groupSize).append(ChatColor.DARK_GRAY).append("] ");
@@ -115,7 +110,7 @@ public class Who extends CommandHandler{
 		final TreeMap<PermissionGroup, List<Player>> groupPlayerMap = new TreeMap<PermissionGroup, List<Player>>();
 		
 		for(Player player : Bukkit.getOnlinePlayers()){
-			final PermissionGroup group = pex.getUser(player).getGroups()[0];
+			final PermissionGroup group = PermissionHandler.getPlayerGroup(player);
 			if(!groupPlayerMap.containsKey(group)){
 				final List<Player> newGroupList = new ArrayList<>();
 				if(pl.isFakeQuit(player)){

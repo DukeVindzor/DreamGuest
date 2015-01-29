@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
-import com.thedreamsanctuary.dreamguest.util.Banlist;
+import com.thedreamsanctuary.dreamguest.util.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
@@ -39,8 +39,8 @@ public class ConnectionEventListener implements Listener{
             return;
 		}
 		
-		if(Banlist.isPlayerBanned(playerUUID)){
-			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, Banlist.getPlayerBanreason(playerUUID));
+		if(BanHandler.isPlayerBanned(playerUUID)){
+			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, BanHandler.getPlayerBanreason(playerUUID));
 		}
 	}
 	
