@@ -112,7 +112,7 @@ public class Who extends CommandHandler{
 		for(Player player : Bukkit.getOnlinePlayers()){
 			final PermissionGroup group = PermissionHandler.getPlayerGroup(player);
 			if(!groupPlayerMap.containsKey(group)){
-				final List<Player> newGroupList = new ArrayList<>();
+				final List<Player> newGroupList = new ArrayList<Player>();
 				if(pl.isFakeQuit(player)){
 					if(!canSeeFQ){
 						continue;

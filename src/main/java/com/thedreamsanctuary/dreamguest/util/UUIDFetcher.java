@@ -37,7 +37,7 @@ public class UUIDFetcher {
     
     public Map<String, UUID> call() throws Exception
     {
-        Map<String, UUID> uuidMap = new HashMap<>();
+        Map<String, UUID> uuidMap = new HashMap<String, UUID>();
         int requests = (int) Math.ceil(names.size() / PROFILES_PER_REQUEST);
         for (int i = 0; i < requests; i++)
         {
