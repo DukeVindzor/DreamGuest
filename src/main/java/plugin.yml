@@ -1,0 +1,19 @@
+name: DreamGuest
+version: 1.0.0-SNAPSHOT
+main: com.thedreamsanctuary.dreamguest.DreamGuest
+author: Shinigami97
+depend: [PermissionsEx]
+
+commands:
+  who:
+    usage: /<command>
+    permission: dreamguest.chat.who
+    description: lists current players
+  ban:
+    usage: /<command> <target> [reason]
+    permission: dreamguest.admin.ban
+    description: permanently bans a player
+  unban:
+    usage: /<command> <target>
+    permission: dreamguest.admin.unban
+    description: unbans a player (by name or UUID)
