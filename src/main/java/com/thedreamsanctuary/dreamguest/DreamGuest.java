@@ -1,6 +1,9 @@
 package com.thedreamsanctuary.dreamguest;
 
 
+import java.io.IOException;
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +20,7 @@ import com.thedreamsanctuary.dreamguest.command.chat.Who;
 import com.thedreamsanctuary.dreamguest.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.listeners.ConnectionEventListener;
 import com.thedreamsanctuary.dreamguest.listeners.PlayerEventListener;
+import com.thedreamsanctuary.dreamguest.metrics.MetricsLite;
 import com.thedreamsanctuary.dreamguest.util.JSON;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
@@ -42,6 +46,15 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
 		this.getServer().getPluginManager().registerEvents(new ConnectionEventListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
+		
+		try {
+	        MetricsLite metrics = new MetricsLite(this);
+	        System.out.println(metrics.start());
+	        System.out.println("[DreamGuest] Logging enabled");
+	    } catch (IOException e) {
+	        Bukkit.getLogger().log(Level.SEVERE, "Failed to link to metrics service, disabling metrics.");
+	    }
+		
 	}
 	
 	public void onDisable(){
