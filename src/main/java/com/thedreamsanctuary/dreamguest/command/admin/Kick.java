@@ -1,18 +1,21 @@
 package com.thedreamsanctuary.dreamguest.command.admin;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import ru.tehkode.permissions.PermissionManager;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 
 public class Kick extends CommandHandler{
 
-	public Kick(DreamGuest pl, PermissionManager pex) {
-		super(pl, pex);
-		// TODO Auto-generated constructor stub
+	public Kick(DreamGuest pl) {
+		super(pl);
 	}
 
 	@Override
@@ -28,7 +31,21 @@ public class Kick extends CommandHandler{
 				reason += args[i] + " ";
 			}
 		}
-		return false;
+		
+		Player player = null;
+		try{
+			player = Bukkit.getPlayer(target);
+		}catch (Exception e){
+			sender.sendMessage(ChatColor.RED + "Player not found");
+			return true;
+		}
+		if(player == null){
+			sender.sendMessage(ChatColor.RED + "Player not found");
+			return true;
+		}
+		player.kickPlayer(reason);
+		Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-kick-message"), sender, player.getDisplayName(), reason));
+		return true;
 	}
 
 }

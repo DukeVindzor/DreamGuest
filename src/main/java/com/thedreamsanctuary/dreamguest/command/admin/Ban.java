@@ -19,8 +19,8 @@ import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
 public class Ban extends CommandHandler{
 	private final DreamGuest pl;
-	public Ban(DreamGuest pl, PermissionManager pex) {
-		super(pl, pex);
+	public Ban(DreamGuest pl) {
+		super(pl);
 		this.pl = pl;
 	}
 

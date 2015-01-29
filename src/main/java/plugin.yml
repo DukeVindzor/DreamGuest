@@ -17,3 +17,7 @@ commands:
     usage: /<command> <target>
     permission: dreamguest.admin.unban
     description: unbans a player (by name or UUID)
+  kick:
+    usage: /<command> <target> [reason]
+    permission: dreamguest.admin.kick
+    description: kicks a player

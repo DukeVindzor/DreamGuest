@@ -29,9 +29,9 @@ import com.thedreamsanctuary.dreamguest.command.CommandHandler;
 public class Who extends CommandHandler{
 	private final PermissionManager pex;
 	private final Permission perm;
-	public Who(DreamGuest pl, PermissionManager pex) {
-		super(pl, pex);
-		this.pex = pex;
+	public Who(DreamGuest pl) {
+		super(pl);
+		this.pex = pl.getPermissionManager();
 		perm = pl.getPerm();
 	}
 	

@@ -19,9 +19,8 @@ import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
 public class Unban extends CommandHandler{
 
-	public Unban(DreamGuest pl, PermissionManager pex) {
-		super(pl, pex);
-		// TODO Auto-generated constructor stub
+	public Unban(DreamGuest pl) {
+		super(pl);
 	}
 
 	@Override
