@@ -1,16 +1,38 @@
 package com.thedreamsanctuary.dreamguest.handlers;
 
+import java.util.ArrayList;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.thedreamsanctuary.dreamguest.DreamGuest;
-
 public class AfkHandler {
-	private final DreamGuest pl;
-	public AfkHandler(DreamGuest pl){
-		this.pl = pl;
-	}
-	public boolean isAfk(Player player){
+	private static ArrayList<Player> playerlist = new ArrayList<Player>();
+	/**
+	 * Checks if a player is afk
+	 * @param player
+	 * @return true if player is afk, false if not
+	 */
+	public static boolean isAFK(Player player){
+		if(playerlist.contains(player)){
+			return true;
+		}
 		return false;
-		//TODO
+	}
+	public static boolean toggleAFK(Player player){
+		if(!playerlist.contains(player)){
+			playerlist.add(player);
+			return true;
+		}else{
+			playerlist.remove(player);
+			return false;
+		}
+	}
+	public static void playerReturned(Player player) {
+		if(!Bukkit.getPluginManager().getPlugin("DreamGuest").getConfig().getBoolean("toggle-afk-on-interact")){
+			return;
+		}
+		if(playerlist.contains(player)){
+			playerlist.remove(player);
+		}
 	}
 }

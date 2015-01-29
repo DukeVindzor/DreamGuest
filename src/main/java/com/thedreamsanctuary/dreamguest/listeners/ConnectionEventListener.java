@@ -55,7 +55,6 @@ public class ConnectionEventListener implements Listener{
         final Player player = event.getPlayer();
         System.out.println(pl.getConfig().getString("join-format"));
         event.setJoinMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("join-message"), player));
-        //TODO handle fakequit on join
         if (pl.isFakeQuit(player))
         {
             event.setJoinMessage("");
@@ -73,7 +72,6 @@ public class ConnectionEventListener implements Listener{
     	final Player player = event.getPlayer();
 
         event.setQuitMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("leave-message"), player));
-        //TODO handle fakequit on quit
         if (pl.isFakeQuit(player))
         {
             event.setQuitMessage("");
@@ -91,7 +89,6 @@ public class ConnectionEventListener implements Listener{
     	final Player player = event.getPlayer();
 
         event.setLeaveMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("kick-message"), player));
-        //TODO handle fakequit on quit
         if (pl.isFakeQuit(player))
         {
             event.setLeaveMessage("");

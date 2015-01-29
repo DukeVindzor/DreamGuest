@@ -2,17 +2,12 @@ package com.thedreamsanctuary.dreamguest.command.chat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-
-import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,14 +20,13 @@ import ru.tehkode.permissions.PermissionManager;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.handlers.AfkHandler;
 
 public class Who extends CommandHandler{
 	private final PermissionManager pex;
-	private final Permission perm;
 	public Who(DreamGuest pl) {
 		super(pl);
 		this.pex = pl.getPermissionManager();
-		perm = pl.getPerm();
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -65,7 +59,7 @@ public class Who extends CommandHandler{
 					groupStrBuilder.append(ChatColor.GOLD).append(", ");
 					comma = true;
 				}
-				if(pl.isAFK(player)){
+				if(AfkHandler.isAFK(player)){
 					groupStrBuilder.append(ChatColor.GRAY).append(player.getDisplayName());
 				}else{
 					groupStrBuilder.append(ChatColor.WHITE).append(player.getDisplayName());
