@@ -10,9 +10,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.handlers.AfkHandler;
 
 public class PlayerEventListener implements Listener{
+	public PlayerEventListener(DreamGuest pl){
+		
+	}
+	
 	/**
      * Handles player move events.
      *
