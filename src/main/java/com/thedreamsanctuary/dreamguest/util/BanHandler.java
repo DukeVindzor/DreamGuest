@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.json.simple.JSONObject;
 
-public class Banlist {
+public class BanHandler {
 	
 	public static boolean isPlayerBanned(UUID playerUUID){
 		JSONObject banlist = JSON.parseFile("bans");
