@@ -4,8 +4,10 @@ package com.thedreamsanctuary.dreamguest;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+
 import com.thedreamsanctuary.dreamguest.command.admin.Ban;
 import com.thedreamsanctuary.dreamguest.command.admin.Kick;
 import com.thedreamsanctuary.dreamguest.command.admin.Unban;
@@ -14,6 +16,7 @@ import com.thedreamsanctuary.dreamguest.command.chat.AddAFKMessage;
 import com.thedreamsanctuary.dreamguest.command.chat.Who;
 import com.thedreamsanctuary.dreamguest.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.listeners.ConnectionEventListener;
+import com.thedreamsanctuary.dreamguest.listeners.PlayerEventListener;
 import com.thedreamsanctuary.dreamguest.util.JSON;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
@@ -38,6 +41,7 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("afk").setExecutor(new AFK(this));
 		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
 		this.getServer().getPluginManager().registerEvents(new ConnectionEventListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
 	}
 	
 	public void onDisable(){
