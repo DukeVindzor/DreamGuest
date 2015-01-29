@@ -1,15 +1,12 @@
 package com.thedreamsanctuary.dreamguest;
 
-import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
-
 import com.thedreamsanctuary.dreamguest.command.admin.Ban;
 import com.thedreamsanctuary.dreamguest.command.admin.Kick;
 import com.thedreamsanctuary.dreamguest.command.admin.Unban;
@@ -24,11 +21,9 @@ import com.thedreamsanctuary.dreamguest.util.Text;
 public class DreamGuest extends JavaPlugin{
 	private final VanishFakeQuitHandler vanishHandler = new VanishFakeQuitHandler(this);
 	public static PermissionManager pex;
-	public static Permission perms = null;
 	public void onEnable(){
 		this.saveDefaultConfig();
 		DreamGuest.pex = PermissionsEx.getPermissionManager();
-		setupPermissions();
 		if(!JSON.createFile("bans")){
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
@@ -65,10 +60,4 @@ public class DreamGuest extends JavaPlugin{
 	public int getFakeQuitSize(){
 		return vanishHandler.getFakeQuitSize();
 	}
-	
-	  private boolean setupPermissions() {
-	        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-	        perms = rsp.getProvider();
-	        return perms != null;
-	    }
 }
