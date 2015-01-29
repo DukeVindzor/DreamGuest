@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
+
 public class AfkHandler {
 	private static ArrayList<Player> playerlist = new ArrayList<Player>();
 	/**
@@ -28,11 +31,14 @@ public class AfkHandler {
 		}
 	}
 	public static void playerReturned(Player player) {
+		
 		if(!Bukkit.getPluginManager().getPlugin("DreamGuest").getConfig().getBoolean("toggle-afk-on-interact")){
 			return;
 		}
 		if(playerlist.contains(player)){
 			playerlist.remove(player);
+			String afkmessage = Bukkit.getPluginManager().getPlugin("DreamGuest").getConfig().getString("default-return-message");
+			Bukkit.broadcastMessage(MessageFormatter.formatAFKMessage(Bukkit.getPluginManager().getPlugin("DreamGuest").getConfig().getString("afk-format"), player, afkmessage));
 		}
 	}
 }

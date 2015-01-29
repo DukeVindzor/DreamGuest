@@ -48,7 +48,6 @@ public class AFK extends CommandHandler{
 	
 	public String getRandomAFKMessage(){
 		ArrayList<String> messages = Text.parseFile("afk-messages");
-		System.out.println(messages.toString());
 		if(messages.size()==0){
 			return pl.getConfig().getString("default-afk-message");
 		}
