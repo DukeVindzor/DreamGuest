@@ -9,7 +9,7 @@ This plugin uses PEX functions that Vault does not provide. I will try to move t
 <h3>/who</h3>
 <b>Permission node:</b> <code>dreamguest.chat.who</code> <br>
 <b>Usage: </b> /who <br>
-<b>Description: </b> lists all currently online players, sorted by group. <br>
+<b>Description: </b> lists all currently online players, sorted by group. Groups are sorted by weight, ascending. If a group does not yet have a weight assigned when this command is run, it gets assigned a weight of one less than the previously lowest weight. <br>
 
 <h3>/kick</h3>
 <b>Permission node:</b> <code>dreamguest.admin.kick</code> <br>
