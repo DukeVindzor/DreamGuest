@@ -60,6 +60,7 @@ public class Text {
 			while(input.hasNext()){
 				output.add(input.nextLine());
 			}
+			input.close();
 			return output;
 		} catch (FileNotFoundException e) {
 			Bukkit.getLogger().log(Level.SEVERE, "Failed to read file " + file + ".txt!");
