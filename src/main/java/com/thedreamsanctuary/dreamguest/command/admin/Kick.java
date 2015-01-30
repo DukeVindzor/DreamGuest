@@ -41,7 +41,7 @@ public class Kick extends CommandHandler{
 			return true;
 		}
 		player.kickPlayer(reason);
-		Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-kick-message"), sender, player.getDisplayName(), reason));
+		Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-kick-message"), sender.getName(), player.getDisplayName(), reason));
 		return true;
 	}
 

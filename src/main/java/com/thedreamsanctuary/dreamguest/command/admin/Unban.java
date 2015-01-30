@@ -7,10 +7,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.handlers.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.BanResult;
-import com.thedreamsanctuary.dreamguest.util.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
@@ -39,7 +40,7 @@ public class Unban extends CommandHandler{
 		switch(result){
 		case SUCCESS:
 			target = Bukkit.getOfflinePlayer(playerUUID).getName();
-			sender.sendMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-unban-message"), sender, target, ""));
+			sender.sendMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-unban-message"), sender.getName(), target, ""));
 			return true;
 		case ERROR:
 			sender.sendMessage(ChatColor.RED + "An error occurred while unbanning the Player, please contact an Administrator.");

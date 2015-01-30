@@ -19,9 +19,9 @@ public class MessageFormatter {
 		return format.replace(playerplaceholder, player.getDisplayName()).replace(playercountplaceholder, "" + Bukkit.getOnlinePlayers().size()).replace(playercountmin1placeholder, "" + (Bukkit.getOnlinePlayers().size()-1));
 	}
 	
-	public static String formatKickBanMessage(String format, CommandSender sender, String target, String reason){
+	public static String formatKickBanMessage(String format, String sender, String target, String reason){
 		format = applyColours(format);
-		return format.replace(playerplaceholder, target).replace(adminplaceholder, sender.getName()).replace(reasonplaceholder, reason);
+		return format.replace(playerplaceholder, target).replace(adminplaceholder, sender).replace(reasonplaceholder, reason);
 	}
 	
 	public static String formatAFKMessage(String format, Player player, String message){
