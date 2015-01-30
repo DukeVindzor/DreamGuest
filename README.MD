@@ -23,8 +23,13 @@ This plugin uses PEX functions that Vault does not provide. I will try to move t
  
 <h3>/unban</h3>
 <b>Permission node:</b> <code>dreamguest.admin.unban</code> <br>
-<b>Usage: </b> /unban <target> <br>
+<b>Usage: </b> /unban &lt;target&gt; <br>
 <b>Description: </b> unbans the targeted player. &lt;target&gt; can be either name or UUID, name must be exact.<br>
+
+<h3>/banreason</h3>
+<b>Permission node:</b> <code>dreamguest.admin.banreason</code> <br>
+<b>Usage: </b> /banreason &lt;target&gt; <br>
+<b>Description: </b> retrieves the reason the targeted player was baned for. &lt;target&gt; can be either name or UUID, name must be exact.<br>
 
 <h3>/afk</h3>
 <b>Permission node:</b> <code>dreamguest.chat.afk</code> <br>
@@ -33,8 +38,13 @@ This plugin uses PEX functions that Vault does not provide. I will try to move t
 
 <h3>/addafkmessage</h3>
 <b>Permission node:</b> <code>dreamguest.chat.addafkmessage</code> <br>
-<b>Usage: </b> /addafkmessage <message> <br>
+<b>Usage: </b> /addafkmessage &lt;message&gt; <br>
 <b>Description: </b> Adds an afk message to the list of available afk messages. Only works if <code>random-afk-messages</code> is set to true.<br>
+
+<h3>/vanish</h3>
+<b>Permission node:</b> <code>dreamguest.admin.vanish</code> <br>
+<b>Usage: </b> /vanish [target] <br>
+<b>Description: </b> Vanishes the targeted player, hiding him from people without the <code>dreamguest.admin.vanish</code> permission. Leave target blank to target yourself.<br>
 
 <h2>Configuration</h2>
 The default configuration file:
