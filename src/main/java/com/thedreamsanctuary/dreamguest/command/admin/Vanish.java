@@ -28,8 +28,10 @@ public class Vanish extends CommandHandler{
 		if(args.length > 1){
 			return false;
 		}
+		//if no argument given, target is the player itself
 		if(args.length == 0){
 			Player player = (Player) sender;
+			//toggle Vanishing
 			if(VanishFakeQuitHandler.isVanished(player)){
 				VanishFakeQuitHandler.unvanishPlayer(player);
 				player.sendMessage(ChatColor.AQUA + appearstring);
@@ -39,11 +41,13 @@ public class Vanish extends CommandHandler{
 			}
 			return true;
 		}
+		//try to find target player
 		Player player = Bukkit.getPlayer(args[0]);
 		if(player == null){
 			sender.sendMessage(ChatColor.RED + "Player could not be found.");
 			return true;
 		}
+		//toggle targeted players vanish status
 		if(VanishFakeQuitHandler.isVanished(player)){
 			VanishFakeQuitHandler.unvanishPlayer(player);
 			sender.sendMessage(ChatColor.AQUA + appearotherstring.replace("${n}", player.getDisplayName()));

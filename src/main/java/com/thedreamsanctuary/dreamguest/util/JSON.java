@@ -13,8 +13,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class JSON {
+	/**
+	 * create a new JSON file if it does not exist already
+	 * @param file name of the new file, excluding the ".json"
+	 * @return true if file either exists already or has been successfully created, false if an error occured
+	 */
 	public static boolean createFile(String file){
 		File f = new File(Bukkit.getPluginManager().getPlugin("DreamGuest").getDataFolder(), file + ".json");
+		//check if file already exists
 		if(f.exists() && !f.isDirectory()){
 			return true;
 		}
@@ -23,11 +29,13 @@ public class JSON {
 			f.createNewFile();
 			FileWriter filewriter = new FileWriter(Bukkit.getPluginManager().getPlugin("DreamGuest").getDataFolder() + "/" + file + ".json");
 			try{
+				//write a new, empty JSONObject to the file
 				filewriter.write(new JSONObject().toString());
 			}catch (Exception e){
 				e.printStackTrace();
 				return false;
 			}finally{
+				//close filewriter
 				filewriter.flush();
 				filewriter.close();
 			}
@@ -38,7 +46,11 @@ public class JSON {
 		}
 		
 	}
-	
+	/**
+	 * Write a JSONObject to a file
+	 * @param file filename to write to, excluding ".json"
+	 * @param object JSONObject to write to file
+	 */
 	public static void writeObjectToFile(String file, JSONObject object){
 		try {
 			FileWriter filewriter = new FileWriter(Bukkit.getPluginManager().getPlugin("DreamGuest").getDataFolder() + "/" + file + ".json");
@@ -56,7 +68,11 @@ public class JSON {
 		}
 		
 	}
-	
+	/**
+	 * parse a .json file to JSONObject
+	 * @param file filename excluding ".json"
+	 * @return the JSONObject parsed
+	 */
 	public static JSONObject parseFile(String file){
 		JSONParser parser = new JSONParser();
 		 
@@ -73,7 +89,7 @@ public class JSON {
 			Bukkit.getLogger().log(Level.SEVERE, "Failed to parse file " + file + ".json!");
 			return null;
 		}
-		 
+		
 		JSONObject jObject = (JSONObject) object;
 		return jObject;
 	}

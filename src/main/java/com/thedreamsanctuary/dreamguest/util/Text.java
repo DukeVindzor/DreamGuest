@@ -14,6 +14,11 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 
 public class Text {
+	/**
+	 * create a new txt file if it does not exist already
+	 * @param file name of the new file, excluding the ".txt"
+	 * @return true if file either exists already or has been successfully created, false if an error occured
+	 */
 	public static boolean createFile(String file){
 		File f = new File(Bukkit.getPluginManager().getPlugin("DreamGuest").getDataFolder(),file+".txt");
 		if(f.exists() && !f.isDirectory()){
@@ -39,6 +44,11 @@ public class Text {
 			return false;
 		}
 	}
+	/**
+	 * Write an ArrayList of Strings to a file
+	 * @param file filename to write to, excluding ".txt"
+	 * @param text ArrayList containing the lines to write to the file
+	 */
 	public static void writeTextToFile(String file, ArrayList<String> text) throws IOException{
 			File f = new File(Bukkit.getPluginManager().getPlugin("DreamGuest").getDataFolder(),file+".txt");
 			FileOutputStream fos = new FileOutputStream(f);			
@@ -52,6 +62,11 @@ public class Text {
 			bw.close();
 			
 	}
+	/**
+	 * parse a .txt file to an ArrayList containing the lines
+	 * @param file filename excluding ".txt"
+	 * @return the ArrayList parsed
+	 */
 	public static ArrayList<String> parseFile(String file){
 		File f = new File(Bukkit.getPluginManager().getPlugin("DreamGuest").getDataFolder() + "/" + file + ".txt");
 		ArrayList<String> output = new ArrayList<String>();

@@ -2,7 +2,6 @@ package com.thedreamsanctuary.dreamguest.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 
@@ -30,7 +29,6 @@ public class MessageFormatter {
 	}
 	
 	public static String applyColours(String s){
-		//s = ChatColor.translateAlternateColorCodes('&', s);
 		s = ChatColor.translateAlternateColorCodes('&', s);
 		return s;
 	}

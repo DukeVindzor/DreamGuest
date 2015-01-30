@@ -37,6 +37,7 @@ public class Ban extends CommandHandler{
 			}
 		}
 		Player player = null;
+		//check if argument is an online player's name
 		try{
 			player = Bukkit.getPlayer(target);
 		}catch (Exception e){
@@ -44,6 +45,7 @@ public class Ban extends CommandHandler{
 		}
 		UUID playerUUID;
 		boolean online = true;
+		//if no player was found by name, treat argument as UUID
 		if(player==null){
 			online = false;
 			try {
@@ -55,9 +57,11 @@ public class Ban extends CommandHandler{
 		}else{
 			playerUUID = player.getUniqueId();
 		}
+		//ban player if one is found
 		BanResult result = BanHandler.addPlayer(playerUUID, reason);
 		switch(result){
 		case SUCCESS:
+			//broadcast Ban Message
 			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), target, reason));
 			if(online){
 				player.kickPlayer(reason);
@@ -67,6 +71,7 @@ public class Ban extends CommandHandler{
 			sender.sendMessage(ChatColor.RED + "That player is already banned.");
 			break;
 		case ERROR:
+			//bans.json couldn't be parsed, ban via bukkit internal methods instead
 			BanList bl = Bukkit.getBanList(BanList.Type.NAME);
 			bl.addBan(player.getDisplayName(), reason, null, sender.getName());
 			player.kickPlayer(reason);

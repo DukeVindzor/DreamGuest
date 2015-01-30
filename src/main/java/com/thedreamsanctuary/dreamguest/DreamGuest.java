@@ -30,6 +30,7 @@ public class DreamGuest extends JavaPlugin{
 	public static PermissionManager pex;
 	public void onEnable(){
 		this.saveDefaultConfig();
+		//initialize PEX Manager
 		DreamGuest.pex = PermissionsEx.getPermissionManager();
 		if(!JSON.createFile("bans")){
 			Bukkit.getPluginManager().disablePlugin(this);

@@ -27,6 +27,7 @@ public class Unban extends CommandHandler{
 			return false;
 		}
 		String target = args[0];
+		//check if argument is UUID or name
 		if(target.matches("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}")){
 			return unbanByUUID(target, sender);
 		}else{

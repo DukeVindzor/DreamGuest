@@ -25,6 +25,7 @@ public class BanReason extends CommandHandler{
 			return false;
 		}
 		String target = args[0];
+		//check if argument is UUID and execute fitting method
 		if(target.matches("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}")){
 			getReasonByUUID(sender, UUID.fromString(target));
 		}else{
@@ -34,6 +35,7 @@ public class BanReason extends CommandHandler{
 	}
 	
 	public void getReasonByUUID(CommandSender sender, UUID playerUUID){
+		//retrieve banreason by UUID
 		String reason = BanHandler.getPlayerBanreason(playerUUID);
 		String name = BanHandler.getBannedPlayerName(playerUUID);
 		sender.sendMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-banreason-message"), "", name, reason));
@@ -41,6 +43,7 @@ public class BanReason extends CommandHandler{
 	
 	public void getReasonByName(CommandSender sender, String target){
 		try {
+			//try getting player's UUID, if succeeds, get reason by UUID
 			UUID playerUUID = UUIDFetcher.getUUIDOf(target);
 			getReasonByUUID(sender, playerUUID);
 		} catch (Exception e) {

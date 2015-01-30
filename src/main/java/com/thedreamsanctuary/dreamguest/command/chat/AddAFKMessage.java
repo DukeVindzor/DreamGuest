@@ -23,6 +23,7 @@ public class AddAFKMessage extends CommandHandler{
 		if(args.length < 1){
 			return false;
 		}
+		//only execute if random afk messages are enabled
 		if(!pl.getConfig().getBoolean("random-afk-messages")){
 			sender.sendMessage(ChatColor.RED + "Sorry, random afk messages have to be enabled to use this feature.");
 			return true;
@@ -31,12 +32,15 @@ public class AddAFKMessage extends CommandHandler{
 		for(int i = 0 ; i < args.length ; i++){
 			message += args[i] + " ";
 		}
+		//parse given message
 		ArrayList<String> afkMessages = Text.parseFile("afk-messages");
+		//check if afk message exists in message list
 		if(afkMessages.contains(message)){
 			sender.sendMessage(ChatColor.DARK_AQUA + "That AFK message already exists!");
 			return true;
 		}
 		afkMessages.add(message);
+		//write updated AFK message ArrayList to file
 		try {
 			Text.writeTextToFile("afk-messages", afkMessages);
 		} catch (IOException e) {
