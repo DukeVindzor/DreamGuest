@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public class VanishFakeQuitHandler {
 	static ArrayList<Player> vanished = new ArrayList<Player>();
-	static final String vanishSeePermission = "dreamguest.admin.vanish.see";
+	static final String vanishSeePermission = "dreamguest.admin.vanish";
 	public static boolean isVanished(Player player){
 		return vanished.contains(player);
 	}
