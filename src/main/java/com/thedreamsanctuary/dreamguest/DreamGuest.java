@@ -15,6 +15,7 @@ import com.thedreamsanctuary.dreamguest.command.admin.Ban;
 import com.thedreamsanctuary.dreamguest.command.admin.BanReason;
 import com.thedreamsanctuary.dreamguest.command.admin.Kick;
 import com.thedreamsanctuary.dreamguest.command.admin.Unban;
+import com.thedreamsanctuary.dreamguest.command.admin.Vanish;
 import com.thedreamsanctuary.dreamguest.command.chat.AFK;
 import com.thedreamsanctuary.dreamguest.command.chat.AddAFKMessage;
 import com.thedreamsanctuary.dreamguest.command.chat.Who;
@@ -26,7 +27,6 @@ import com.thedreamsanctuary.dreamguest.util.JSON;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class DreamGuest extends JavaPlugin{
-	private final VanishFakeQuitHandler vanishHandler = new VanishFakeQuitHandler(this);
 	public static PermissionManager pex;
 	public void onEnable(){
 		this.saveDefaultConfig();
@@ -46,6 +46,7 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("kick").setExecutor(new Kick(this));
 		this.getCommand("afk").setExecutor(new AFK(this));
 		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
+		this.getCommand("vanish").setExecutor(new Vanish(this));
 		this.getServer().getPluginManager().registerEvents(new ConnectionEventListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
 		
@@ -68,14 +69,14 @@ public class DreamGuest extends JavaPlugin{
 	}
 	
 	public boolean isVanished(Player player){
-		return vanishHandler.isVanished(player);
+		return VanishFakeQuitHandler.isVanished(player);
 	}
 	
 	public boolean isFakeQuit(Player player){
-		return vanishHandler.isFakeQuit(player);
+		return VanishFakeQuitHandler.isFakeQuit(player);
 	}
 
 	public int getFakeQuitSize(){
-		return vanishHandler.getFakeQuitSize();
+		return VanishFakeQuitHandler.getFakeQuitSize();
 	}
 }

@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.handlers.BanHandler;
+import com.thedreamsanctuary.dreamguest.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
@@ -53,12 +54,12 @@ public class ConnectionEventListener implements Listener{
     public void onPlayerJoin(final PlayerJoinEvent event)
     {
         final Player player = event.getPlayer();
-        System.out.println(pl.getConfig().getString("join-format"));
         event.setJoinMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("join-message"), player));
         if (pl.isFakeQuit(player))
         {
             event.setJoinMessage("");
         }
+        VanishFakeQuitHandler.handleJoin(player);
     }
 
     /**
@@ -76,6 +77,7 @@ public class ConnectionEventListener implements Listener{
         {
             event.setQuitMessage("");
         }
+        VanishFakeQuitHandler.handleLeave(player);
     }
 
     /**
@@ -93,5 +95,6 @@ public class ConnectionEventListener implements Listener{
         {
             event.setLeaveMessage("");
         }
+        VanishFakeQuitHandler.handleLeave(player);
     }
 }

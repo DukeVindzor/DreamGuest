@@ -1,5 +1,5 @@
 name: DreamGuest
-version: 1.0.1-SNAPSHOT
+version: 1.0.4-SNAPSHOT
 main: com.thedreamsanctuary.dreamguest.DreamGuest
 author: Shinigami97
 depend: [PermissionsEx]
@@ -33,3 +33,7 @@ commands:
     usage: /<command> <message>
     permission: dreamguest.chat.addafkmessage
     description: adds an AFK message to the list of random AFK messages
+  vanish:
+    usage: /<command> [target]
+    permission: dreamguest.admin.vanish
+    description: vanishes the targeted player, hiding him from people without the permission to see him. Leave [target] blank to target yourself.
