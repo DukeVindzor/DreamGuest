@@ -12,6 +12,7 @@ import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import com.thedreamsanctuary.dreamguest.command.admin.Ban;
+import com.thedreamsanctuary.dreamguest.command.admin.BanReason;
 import com.thedreamsanctuary.dreamguest.command.admin.Kick;
 import com.thedreamsanctuary.dreamguest.command.admin.Unban;
 import com.thedreamsanctuary.dreamguest.command.chat.AFK;
@@ -41,6 +42,7 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("who").setExecutor(new Who(this));
 		this.getCommand("ban").setExecutor(new Ban(this));
 		this.getCommand("unban").setExecutor(new Unban(this));
+		this.getCommand("banreason").setExecutor(new BanReason(this));
 		this.getCommand("kick").setExecutor(new Kick(this));
 		this.getCommand("afk").setExecutor(new AFK(this));
 		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
