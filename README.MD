@@ -49,6 +49,8 @@ This plugin uses PEX functions that Vault does not provide. I will try to move t
 <h2>Configuration</h2>
 The default configuration file:
 <pre>
+# whether or not to send metrics to MCStats.org
+collect-metrics: true
 # List of Placeholders:
 # ${no} amount of players
 # ${no-1} amount of players minus 1
