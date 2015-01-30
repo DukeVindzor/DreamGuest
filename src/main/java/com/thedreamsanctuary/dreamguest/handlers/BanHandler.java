@@ -1,10 +1,13 @@
-package com.thedreamsanctuary.dreamguest.util;
+package com.thedreamsanctuary.dreamguest.handlers;
 
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.json.simple.JSONObject;
+
+import com.thedreamsanctuary.dreamguest.util.BanResult;
+import com.thedreamsanctuary.dreamguest.util.JSON;
 
 public class BanHandler {
 	
@@ -51,6 +54,18 @@ public class BanHandler {
 		banlist.remove(playerUUID.toString());
 		JSON.writeObjectToFile("bans", banlist);
 		return BanResult.SUCCESS;
+	}
+	
+	public static String getBannedPlayerName(UUID playerUUID){
+		if(!isPlayerBanned(playerUUID)){
+			return "";
+		}
+		JSONObject banlist = JSON.parseFile("bans");
+		if(banlist == null){
+			return "";
+		}
+		JSONObject entry = (JSONObject) banlist.get(playerUUID.toString());
+		return entry.get("name").toString();
 	}
 	
 }
