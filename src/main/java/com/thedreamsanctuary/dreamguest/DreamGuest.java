@@ -50,15 +50,15 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("vanish").setExecutor(new Vanish(this));
 		this.getServer().getPluginManager().registerEvents(new ConnectionEventListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
-		
-		try {
-	        MetricsLite metrics = new MetricsLite(this);
-	        System.out.println(metrics.start());
-	        System.out.println("[DreamGuest] Logging enabled");
-	    } catch (IOException e) {
-	        Bukkit.getLogger().log(Level.SEVERE, "Failed to link to metrics service, disabling metrics.");
-	    }
-		
+		if(getConfig().getBoolean("collect-metrics")){
+			try {
+		        MetricsLite metrics = new MetricsLite(this);
+		        System.out.println(metrics.start());
+		        System.out.println("[DreamGuest] Logging enabled");
+		    } catch (IOException e) {
+		        Bukkit.getLogger().log(Level.SEVERE, "Failed to link to metrics service, disabling metrics.");
+		    }
+		}	
 	}
 	
 	public void onDisable(){
