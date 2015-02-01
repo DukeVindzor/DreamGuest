@@ -102,7 +102,7 @@ public class Who extends CommandHandler{
 					}
 				}
 				//check if the current player's primary group is the currently selected group
-				if(PermissionHandler.getPlayerGroup(player).equals(groupName)){
+				if(PermissionHandler.getPlayerGroup(player).equals(group)){
 					//if so, increase player count for currently selected group by one
 					groupCount.put(group, groupCount.get(group)+1);
 				}
