@@ -41,7 +41,7 @@ public class Unban extends CommandHandler{
 		switch(result){
 		case SUCCESS:
 			target = Bukkit.getOfflinePlayer(playerUUID).getName();
-			sender.sendMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-unban-message"), sender.getName(), target, ""));
+			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-unban-message"), sender.getName(), target, ""));
 			return true;
 		case ERROR:
 			sender.sendMessage(ChatColor.RED + "An error occurred while unbanning the Player, please contact an Administrator.");
