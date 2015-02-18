@@ -17,10 +17,6 @@ import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
 public class Unban extends CommandHandler{
 
-	public Unban(DreamGuest pl) {
-		super(pl);
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(args.length != 1){

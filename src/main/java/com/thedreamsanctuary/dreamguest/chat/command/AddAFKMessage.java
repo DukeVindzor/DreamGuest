@@ -14,10 +14,6 @@ import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class AddAFKMessage extends CommandHandler{
 
-	public AddAFKMessage(DreamGuest pl) {
-		super(pl);
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length < 1){

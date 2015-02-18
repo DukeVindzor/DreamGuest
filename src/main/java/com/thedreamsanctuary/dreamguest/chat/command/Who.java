@@ -20,9 +20,7 @@ import com.thedreamsanctuary.dreamguest.chat.handlers.PermissionHandler;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
 
 public class Who extends CommandHandler{
-	public Who(DreamGuest pl) {
-		super(pl);
-	}
+	private final DreamGuest pl = DreamGuest.singleton;
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		boolean canSeeFQ = sender.hasPermission("dreamguest.vanish");

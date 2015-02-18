@@ -12,11 +12,7 @@ import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 
 public class ChatConnectionEventListener implements Listener{
-	private final DreamGuest pl;
-	
-	public ChatConnectionEventListener(DreamGuest pl){
-		this.pl = pl;
-	}
+	private final DreamGuest pl = DreamGuest.singleton;
 	/**
      * Handles player join events.
      *

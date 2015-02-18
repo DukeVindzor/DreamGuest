@@ -14,11 +14,6 @@ import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
 public class BanReason extends CommandHandler{
 
-	public BanReason(DreamGuest pl) {
-		super(pl);
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(args.length != 1){

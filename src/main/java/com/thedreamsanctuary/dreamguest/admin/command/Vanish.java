@@ -15,10 +15,6 @@ public class Vanish extends CommandHandler{
 	static final String appearstring = "You have reappeared!";
 	static final String vanishotherstring = "You have vanished the player ${n}!";
 	static final String appearotherstring = "You have made the player ${n} reappear!";
-	public Vanish(DreamGuest pl) {
-		super(pl);
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(!(sender instanceof Player)){
