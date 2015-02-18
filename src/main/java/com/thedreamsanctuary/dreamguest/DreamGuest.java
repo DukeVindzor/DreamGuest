@@ -31,7 +31,6 @@ import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class DreamGuest extends JavaPlugin{
 	public static PermissionManager pex;
-	public static DreamGuest singleton;
 	public void onEnable(){
 		this.saveDefaultConfig();
 		//initialize PEX Manager
@@ -53,7 +52,7 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("afk").setExecutor(new AFK(this));
 		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
 		this.getCommand("vanish").setExecutor(new Vanish(this));
-		this.getServer().getPluginManager().registerEvents(new ChatConnectionEventListener(), this);
+		this.getServer().getPluginManager().registerEvents(new ChatConnectionEventListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new AdminConnectionEventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new ChatPlayerEventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new AdminPlayerEventListener(), this);
@@ -66,7 +65,6 @@ public class DreamGuest extends JavaPlugin{
 		        Bukkit.getLogger().log(Level.SEVERE, "Failed to link to metrics service, disabling metrics.");
 		    }
 		}
-		singleton = this;
 	}
 	
 	public void onDisable(){

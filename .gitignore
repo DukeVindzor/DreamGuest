@@ -6,3 +6,5 @@ src/test/*
 .settings/*
 .classpath
 .project
+bin
+bin/*
