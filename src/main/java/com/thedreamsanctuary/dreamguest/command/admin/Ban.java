@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -59,10 +60,11 @@ public class Ban extends CommandHandler{
 		}
 		//ban player if one is found
 		BanResult result = BanHandler.addPlayer(playerUUID, reason);
+		OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(playerUUID);
 		switch(result){
 		case SUCCESS:
 			//broadcast Ban Message
-			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), target, reason));
+			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), targetPlayer.getName(), reason));
 			if(online){
 				player.kickPlayer(reason);
 			}
