@@ -11,17 +11,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import com.thedreamsanctuary.dreamguest.command.admin.Ban;
-import com.thedreamsanctuary.dreamguest.command.admin.BanReason;
-import com.thedreamsanctuary.dreamguest.command.admin.Kick;
-import com.thedreamsanctuary.dreamguest.command.admin.Unban;
-import com.thedreamsanctuary.dreamguest.command.admin.Vanish;
-import com.thedreamsanctuary.dreamguest.command.chat.AFK;
-import com.thedreamsanctuary.dreamguest.command.chat.AddAFKMessage;
-import com.thedreamsanctuary.dreamguest.command.chat.Who;
-import com.thedreamsanctuary.dreamguest.handlers.VanishFakeQuitHandler;
-import com.thedreamsanctuary.dreamguest.listeners.ConnectionEventListener;
-import com.thedreamsanctuary.dreamguest.listeners.PlayerEventListener;
+import com.thedreamsanctuary.dreamguest.admin.command.Ban;
+import com.thedreamsanctuary.dreamguest.admin.command.BanReason;
+import com.thedreamsanctuary.dreamguest.admin.command.Kick;
+import com.thedreamsanctuary.dreamguest.admin.command.Unban;
+import com.thedreamsanctuary.dreamguest.admin.command.Vanish;
+import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
+import com.thedreamsanctuary.dreamguest.admin.listeners.AdminConnectionEventListener;
+import com.thedreamsanctuary.dreamguest.admin.listeners.AdminPlayerEventListener;
+import com.thedreamsanctuary.dreamguest.chat.command.AFK;
+import com.thedreamsanctuary.dreamguest.chat.command.AddAFKMessage;
+import com.thedreamsanctuary.dreamguest.chat.command.Who;
+import com.thedreamsanctuary.dreamguest.chat.listeners.ChatConnectionEventListener;
+import com.thedreamsanctuary.dreamguest.chat.listeners.ChatPlayerEventListener;
 import com.thedreamsanctuary.dreamguest.metrics.MetricsLite;
 import com.thedreamsanctuary.dreamguest.util.JSON;
 import com.thedreamsanctuary.dreamguest.util.Text;
@@ -48,8 +50,10 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("afk").setExecutor(new AFK(this));
 		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
 		this.getCommand("vanish").setExecutor(new Vanish(this));
-		this.getServer().getPluginManager().registerEvents(new ConnectionEventListener(this), this);
-		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new ChatConnectionEventListener(this), this);
+		this.getServer().getPluginManager().registerEvents(new AdminConnectionEventListener(), this);
+		this.getServer().getPluginManager().registerEvents(new ChatPlayerEventListener(), this);
+		this.getServer().getPluginManager().registerEvents(new AdminPlayerEventListener(), this);
 		if(getConfig().getBoolean("collect-metrics")){
 			try {
 		        MetricsLite metrics = new MetricsLite(this);

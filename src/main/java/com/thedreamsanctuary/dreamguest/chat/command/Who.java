@@ -1,4 +1,4 @@
-package com.thedreamsanctuary.dreamguest.command.chat;
+package com.thedreamsanctuary.dreamguest.chat.command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import org.bukkit.entity.Player;
 import ru.tehkode.permissions.PermissionGroup;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
+import com.thedreamsanctuary.dreamguest.chat.handlers.PermissionHandler;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
-import com.thedreamsanctuary.dreamguest.handlers.AfkHandler;
-import com.thedreamsanctuary.dreamguest.handlers.PermissionHandler;
 
 public class Who extends CommandHandler{
 	public Who(DreamGuest pl) {
@@ -91,7 +91,6 @@ public class Who extends CommandHandler{
 		TreeSet<PermissionGroup> groups = PermissionHandler.getGroups();
 		//iterate through groups
 		for(PermissionGroup group : groups){
-			String groupName = group.getName();
 			groupCount.put(group, 0);
 			//iterate through online players
 			for(Player player : Bukkit.getOnlinePlayers()){

@@ -1,7 +1,7 @@
 name: DreamGuest
-version: 1.0.5-SNAPSHOT
+version: 1.0.6-SNAPSHOT
 main: com.thedreamsanctuary.dreamguest.DreamGuest
-author: [ShiniOfTheGami, Shinigami97]
+author: [ShiniOfTheGami]
 depend: [PermissionsEx]
 
 commands:

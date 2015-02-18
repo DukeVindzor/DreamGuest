@@ -1,4 +1,4 @@
-package com.thedreamsanctuary.dreamguest.command.chat;
+package com.thedreamsanctuary.dreamguest.chat.command;
 
 import java.util.ArrayList;
 
@@ -9,8 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
-import com.thedreamsanctuary.dreamguest.handlers.AfkHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.Text;
 

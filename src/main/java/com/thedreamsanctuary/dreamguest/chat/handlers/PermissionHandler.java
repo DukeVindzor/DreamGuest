@@ -1,4 +1,4 @@
-package com.thedreamsanctuary.dreamguest.handlers;
+package com.thedreamsanctuary.dreamguest.chat.handlers;
 
 import java.util.ArrayList;
 import java.util.List;

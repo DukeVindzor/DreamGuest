@@ -1,4 +1,4 @@
-package com.thedreamsanctuary.dreamguest.command.chat;
+package com.thedreamsanctuary.dreamguest.chat.command;
 
 import java.io.IOException;
 import java.util.ArrayList;

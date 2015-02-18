@@ -1,4 +1,4 @@
-package com.thedreamsanctuary.dreamguest.command.admin;
+package com.thedreamsanctuary.dreamguest.admin.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
-import com.thedreamsanctuary.dreamguest.handlers.VanishFakeQuitHandler;
 
 public class Vanish extends CommandHandler{
 	static final String vanishstring = "You have vanished!";

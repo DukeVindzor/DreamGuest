@@ -1,4 +1,4 @@
-package com.thedreamsanctuary.dreamguest.handlers;
+package com.thedreamsanctuary.dreamguest.admin.handlers;
 
 import java.util.ArrayList;
 import org.bukkit.Bukkit;

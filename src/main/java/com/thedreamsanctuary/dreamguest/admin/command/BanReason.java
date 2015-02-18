@@ -1,4 +1,4 @@
-package com.thedreamsanctuary.dreamguest.command.admin;
+package com.thedreamsanctuary.dreamguest.admin.command;
 
 import java.util.UUID;
 
@@ -7,8 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.admin.handlers.BanHandler;
 import com.thedreamsanctuary.dreamguest.command.CommandHandler;
-import com.thedreamsanctuary.dreamguest.handlers.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 

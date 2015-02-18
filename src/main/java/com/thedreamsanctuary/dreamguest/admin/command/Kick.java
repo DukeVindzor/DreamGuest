@@ -1,4 +1,4 @@
-package com.thedreamsanctuary.dreamguest.command.admin;
+package com.thedreamsanctuary.dreamguest.admin.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

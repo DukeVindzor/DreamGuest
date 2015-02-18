@@ -1,50 +1,22 @@
-package com.thedreamsanctuary.dreamguest.listeners;
-
-import java.util.UUID;
+package com.thedreamsanctuary.dreamguest.chat.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.thedreamsanctuary.dreamguest.DreamGuest;
-import com.thedreamsanctuary.dreamguest.handlers.BanHandler;
-import com.thedreamsanctuary.dreamguest.handlers.VanishFakeQuitHandler;
+import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
-import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
-public class ConnectionEventListener implements Listener{
+public class ChatConnectionEventListener implements Listener{
 	private final DreamGuest pl;
 	
-	public ConnectionEventListener(DreamGuest pl){
+	public ChatConnectionEventListener(DreamGuest pl){
 		this.pl = pl;
 	}
-	
-	/**
-     * Handles banned players.
-     *
-     * @param event The event.
-     */
-	@EventHandler
-	public void onPlayerLogin(final AsyncPlayerPreLoginEvent event){
-		final String playerName = event.getName();
-		final UUID playerUUID;
-		try{
-			playerUUID = UUIDFetcher.getUUIDOf(playerName);
-		}catch (Exception e){
-			e.printStackTrace();
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "We're having trouble determining your UUID. Please get in touch with an admin.");
-            return;
-		}
-		
-		if(BanHandler.isPlayerBanned(playerUUID)){
-			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, BanHandler.getPlayerBanreason(playerUUID));
-		}
-	}
-	
 	/**
      * Handles player join events.
      *
