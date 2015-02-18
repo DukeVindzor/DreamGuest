@@ -1,0 +1,39 @@
+name: DreamGuest
+version: 1.0.6-SNAPSHOT
+main: com.thedreamsanctuary.dreamguest.DreamGuest
+author: [ShiniOfTheGami]
+depend: [PermissionsEx]
+
+commands:
+  who:
+    usage: /<command>
+    permission: dreamguest.chat.who
+    description: lists current players
+  ban:
+    usage: /<command> <target> [reason]
+    permission: dreamguest.admin.ban
+    description: permanently bans a player
+  unban:
+    usage: /<command> <target>
+    permission: dreamguest.admin.unban
+    description: unbans a player (by name or UUID)
+  banreason:
+    usage: /<command> <target>
+    permission: dreamguest.admin.banreason
+    description: lists the reason a player was banned (by name or UUID)
+  kick:
+    usage: /<command> <target> [reason]
+    permission: dreamguest.admin.kick
+    description: kicks a player
+  afk:
+    usage: /<command> [message]
+    permission: dreamguest.chat.afk
+    description: sets your status to AFK
+  addafkmessage:
+    usage: /<command> <message>
+    permission: dreamguest.chat.addafkmessage
+    description: adds an AFK message to the list of random AFK messages
+  vanish:
+    usage: /<command> [target]
+    permission: dreamguest.admin.vanish
+    description: vanishes the targeted player, hiding him from people without the permission to see him. Leave [target] blank to target yourself.
