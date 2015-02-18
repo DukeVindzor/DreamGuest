@@ -1,5 +1,7 @@
 package com.thedreamsanctuary.dreamguest.admin.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -109,6 +111,24 @@ public class BanHandler {
 		JSONObject entry = (JSONObject) banlist.get(playerUUID.toString());
 		//return the name entry of the ban object
 		return entry.get("name").toString();
+	}
+	
+	/**
+	 * get a list of all banned players' names
+	 * @return a List<String> containing all the banned playernames
+	 */
+	public static List<String> getBannedPlayers(){
+		List<String> banned = new ArrayList<>();
+		JSONObject banlist = JSON.parseFile("bans");
+		//if a parsing error occued, return the empty list
+		if(banlist == null){
+			return banned;
+		}
+		for(Object object : banlist.keySet()){
+			JSONObject entry = (JSONObject) banlist.get(object);
+			banned.add(entry.get("name").toString());
+		}
+		return banned;
 	}
 	
 }

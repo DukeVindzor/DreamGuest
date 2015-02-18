@@ -19,6 +19,7 @@ import com.thedreamsanctuary.dreamguest.admin.command.Vanish;
 import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.admin.listeners.AdminConnectionEventListener;
 import com.thedreamsanctuary.dreamguest.admin.listeners.AdminPlayerEventListener;
+import com.thedreamsanctuary.dreamguest.admin.tabcompletion.ConstructTabComplete;
 import com.thedreamsanctuary.dreamguest.chat.command.AFK;
 import com.thedreamsanctuary.dreamguest.chat.command.AddAFKMessage;
 import com.thedreamsanctuary.dreamguest.chat.command.Who;
@@ -30,6 +31,7 @@ import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class DreamGuest extends JavaPlugin{
 	public static PermissionManager pex;
+	public static DreamGuest singleton;
 	public void onEnable(){
 		this.saveDefaultConfig();
 		//initialize PEX Manager
@@ -45,6 +47,7 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("who").setExecutor(new Who(this));
 		this.getCommand("ban").setExecutor(new Ban(this));
 		this.getCommand("unban").setExecutor(new Unban(this));
+		this.getCommand("unban").setTabCompleter(new ConstructTabComplete());
 		this.getCommand("banreason").setExecutor(new BanReason(this));
 		this.getCommand("kick").setExecutor(new Kick(this));
 		this.getCommand("afk").setExecutor(new AFK(this));
@@ -62,7 +65,8 @@ public class DreamGuest extends JavaPlugin{
 		    } catch (IOException e) {
 		        Bukkit.getLogger().log(Level.SEVERE, "Failed to link to metrics service, disabling metrics.");
 		    }
-		}	
+		}
+		singleton = this;
 	}
 	
 	public void onDisable(){
