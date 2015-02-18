@@ -10,6 +10,9 @@ import com.thedreamsanctuary.dreamguest.command.CommandHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 
 public class Kick extends CommandHandler{
+	public Kick(DreamGuest pl) {
+		super(pl);
+	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){

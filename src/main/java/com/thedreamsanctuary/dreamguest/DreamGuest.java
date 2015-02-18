@@ -44,15 +44,15 @@ public class DreamGuest extends JavaPlugin{
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
-		this.getCommand("who").setExecutor(new Who());
-		this.getCommand("ban").setExecutor(new Ban());
-		this.getCommand("unban").setExecutor(new Unban());
+		this.getCommand("who").setExecutor(new Who(this));
+		this.getCommand("ban").setExecutor(new Ban(this));
+		this.getCommand("unban").setExecutor(new Unban(this));
 		this.getCommand("unban").setTabCompleter(new ConstructTabComplete());
-		this.getCommand("banreason").setExecutor(new BanReason());
-		this.getCommand("kick").setExecutor(new Kick());
-		this.getCommand("afk").setExecutor(new AFK());
-		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage());
-		this.getCommand("vanish").setExecutor(new Vanish());
+		this.getCommand("banreason").setExecutor(new BanReason(this));
+		this.getCommand("kick").setExecutor(new Kick(this));
+		this.getCommand("afk").setExecutor(new AFK(this));
+		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
+		this.getCommand("vanish").setExecutor(new Vanish(this));
 		this.getServer().getPluginManager().registerEvents(new ChatConnectionEventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new AdminConnectionEventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new ChatPlayerEventListener(), this);

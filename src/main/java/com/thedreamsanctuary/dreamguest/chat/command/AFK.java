@@ -16,6 +16,10 @@ import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class AFK extends CommandHandler{
 
+	public AFK(DreamGuest pl) {
+		super(pl);
+	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!(sender instanceof Player)){
