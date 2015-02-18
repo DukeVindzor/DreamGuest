@@ -1,8 +1,0 @@
-target
-target/*
-src/test
-src/test/*
-.settings
-.settings/*
-.classpath
-.project
