@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.json.simple.JSONObject;
 
 import com.thedreamsanctuary.dreamguest.util.BanResult;
@@ -44,19 +43,18 @@ public class BanHandler {
 	 * @param reason the reason of banning
 	 * @return ALREADY_BANNED if player is already banned, ERROR if a parsing error occurred, SUCCESS if player has been successfully banned
 	 */
-	public static BanResult addPlayer(UUID playerUUID, String reason){
+	@SuppressWarnings("unchecked")
+	public static BanResult addPlayer(CommandSender sender, UUID playerUUID, String banName, String reason){
 		//if player is already banned, return as ALREADY_BANNED;
 		if(isPlayerBanned(playerUUID)){
 			return BanResult.ALREADY_BANNED;
 		}
-		//get player by UUID
-		OfflinePlayer player = Bukkit.getOfflinePlayer(playerUUID);
-		String name = player.getName();
 		//create a new JSONObject to hold the ban
 		JSONObject obj = new JSONObject();
 		//put name and reason into the object
-		obj.put("name", name);
+		obj.put("name", banName);
 		obj.put("reason", reason);
+		obj.put("by", sender.getName());
 		//read banlist
 		JSONObject banlist = JSON.parseFile("bans");
 		//if banlist could not be parsed, return ERROR

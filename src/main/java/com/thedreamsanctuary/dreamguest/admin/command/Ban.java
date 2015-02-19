@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -58,13 +57,16 @@ public class Ban extends CommandHandler{
 		}else{
 			playerUUID = player.getUniqueId();
 		}
-		//ban player if one is found
-		BanResult result = BanHandler.addPlayer(playerUUID, reason);
-		OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(playerUUID);
+		if(playerUUID == null){
+			sender.sendMessage(ChatColor.RED + "Player could not be found");
+			return true;
+		}
+		String banName = target;
+		BanResult result = BanHandler.addPlayer(sender, playerUUID, banName, reason);
 		switch(result){
 		case SUCCESS:
 			//broadcast Ban Message
-			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), targetPlayer.getName(), reason));
+			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), banName, reason));
 			if(online){
 				player.kickPlayer(reason);
 			}
@@ -77,7 +79,7 @@ public class Ban extends CommandHandler{
 			BanList bl = Bukkit.getBanList(BanList.Type.NAME);
 			bl.addBan(player.getDisplayName(), reason, null, sender.getName());
 			player.kickPlayer(reason);
-			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), player.getDisplayName(), reason));
+			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), banName, reason));
 			sender.sendMessage(ChatColor.RED + "Error parsing ban file, banning via bukkit API. Please notify an Administrator of this.");
 			break;
 		default:

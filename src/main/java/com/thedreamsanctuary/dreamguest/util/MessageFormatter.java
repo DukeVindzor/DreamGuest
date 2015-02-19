@@ -20,7 +20,10 @@ public class MessageFormatter {
 	
 	public static String formatKickBanMessage(String format, String sender, String target, String reason){
 		format = applyColours(format);
-		return format.replace(playerplaceholder, target).replace(adminplaceholder, sender).replace(reasonplaceholder, reason);
+		format = format.replace(playerplaceholder, target);
+		format = format.replace(adminplaceholder, sender);
+		format = format.replace(reasonplaceholder, reason);
+		return format;
 	}
 	
 	public static String formatAFKMessage(String format, Player player, String message){
