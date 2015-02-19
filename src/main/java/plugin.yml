@@ -37,3 +37,7 @@ commands:
     usage: /<command> [target]
     permission: dreamguest.admin.vanish
     description: vanishes the targeted player, hiding him from people without the permission to see him. Leave [target] blank to target yourself.
+  dborder:
+    usage: /<command> <create|edit|delete|list> [arguments]
+    permission: dreamguest.border.manage
+    description: manage a border

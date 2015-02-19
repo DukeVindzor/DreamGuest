@@ -20,6 +20,8 @@ import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.admin.listeners.AdminConnectionEventListener;
 import com.thedreamsanctuary.dreamguest.admin.listeners.AdminPlayerEventListener;
 import com.thedreamsanctuary.dreamguest.admin.tabcompletion.ConstructTabComplete;
+import com.thedreamsanctuary.dreamguest.border.command.DBorder;
+import com.thedreamsanctuary.dreamguest.border.handlers.BorderHandler;
 import com.thedreamsanctuary.dreamguest.chat.command.AFK;
 import com.thedreamsanctuary.dreamguest.chat.command.AddAFKMessage;
 import com.thedreamsanctuary.dreamguest.chat.command.Who;
@@ -43,6 +45,9 @@ public class DreamGuest extends JavaPlugin{
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
+		
+		BorderHandler.init(this);
+		
 		this.getCommand("who").setExecutor(new Who(this));
 		this.getCommand("ban").setExecutor(new Ban(this));
 		this.getCommand("unban").setExecutor(new Unban(this));
@@ -52,6 +57,7 @@ public class DreamGuest extends JavaPlugin{
 		this.getCommand("afk").setExecutor(new AFK(this));
 		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
 		this.getCommand("vanish").setExecutor(new Vanish(this));
+		this.getCommand("dborder").setExecutor(new DBorder(this));
 		this.getServer().getPluginManager().registerEvents(new ChatConnectionEventListener(this), this);
 		this.getServer().getPluginManager().registerEvents(new AdminConnectionEventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new ChatPlayerEventListener(), this);
@@ -68,7 +74,7 @@ public class DreamGuest extends JavaPlugin{
 	}
 	
 	public void onDisable(){
-		
+		BorderHandler.saveBorders(BorderHandler.getBorderFile());
 	}
 	
 	public PermissionManager getPermissionManager(){
