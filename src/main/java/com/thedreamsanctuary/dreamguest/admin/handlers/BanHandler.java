@@ -115,7 +115,7 @@ public class BanHandler {
 	 * get a list of all banned players' names
 	 * @return a List<String> containing all the banned playernames
 	 */
-	public static List<String> getBannedPlayers(){
+	public static List<String> getBannedPlayers(String start){
 		List<String> banned = new ArrayList<>();
 		JSONObject banlist = JSON.parseFile("bans");
 		//if a parsing error occued, return the empty list
@@ -124,7 +124,10 @@ public class BanHandler {
 		}
 		for(Object object : banlist.keySet()){
 			JSONObject entry = (JSONObject) banlist.get(object);
-			banned.add(entry.get("name").toString());
+			String banName = entry.get("name").toString();
+			if(banName.toLowerCase().startsWith(start.toLowerCase())){
+				banned.add(banName);
+			}
 		}
 		return banned;
 	}

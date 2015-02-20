@@ -1,5 +1,6 @@
 package com.thedreamsanctuary.dreamguest.admin.command;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,12 +26,12 @@ public class Unban extends CommandHandler implements TabCompleter{
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-		if(cmd.getName().equalsIgnoreCase("unban")&& args.length >=1){
+		if(cmd.getName().equalsIgnoreCase("unban") && args.length == 1){
 			if(sender instanceof Player){
-				return BanHandler.getBannedPlayers();
+				return BanHandler.getBannedPlayers(args[0]);
 			}
 		}
-		return null;
+		return new ArrayList<String>();
 	}
 	
 	@Override
