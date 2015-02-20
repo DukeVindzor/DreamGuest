@@ -46,7 +46,12 @@ public class BorderHandler {
 			}
 		}
 		worlds.add(b.getWorldID());
-		return borders.add(b);
+		boolean success = borders.add(b);
+		if(success){
+			saveBorders(getBorderFile());
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -105,7 +110,7 @@ public class BorderHandler {
 	    boolean inZone = false;
 	    
 	    for(final Border b : borders){
-	    	if(b.getWorldID().equals(endLoc.getWorld().getUID())){
+	    	if(b.getWorldID().equals(endLoc.getWorld().getUID())){	    		
 	    		if(b.isInside(endLoc)){
 	    			inZone = true;
 	    			if(b.isInside(startLoc)){
@@ -114,6 +119,7 @@ public class BorderHandler {
 	    				}	
 	    			}
 	    			if(player.hasPermission(b.getPermission())){
+	    				System.out.println("Player " + player.getDisplayName() + " has permission " + b.getPermission());
 	    				if(canEnter){
 	    					player.sendMessage(ChatColor.GRAY + "Now crossing border of " + ChatColor.GREEN + b.getName().trim());
 	    					continue;

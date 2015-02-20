@@ -22,6 +22,7 @@ import com.thedreamsanctuary.dreamguest.admin.listeners.AdminPlayerEventListener
 import com.thedreamsanctuary.dreamguest.admin.tabcompletion.ConstructTabComplete;
 import com.thedreamsanctuary.dreamguest.border.command.DBorder;
 import com.thedreamsanctuary.dreamguest.border.handlers.BorderHandler;
+import com.thedreamsanctuary.dreamguest.border.listeners.BorderListener;
 import com.thedreamsanctuary.dreamguest.chat.command.AFK;
 import com.thedreamsanctuary.dreamguest.chat.command.AddAFKMessage;
 import com.thedreamsanctuary.dreamguest.chat.command.Who;
@@ -62,6 +63,7 @@ public class DreamGuest extends JavaPlugin{
 		this.getServer().getPluginManager().registerEvents(new AdminConnectionEventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new ChatPlayerEventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new AdminPlayerEventListener(), this);
+		this.getServer().getPluginManager().registerEvents(new BorderListener(), this);
 		if(getConfig().getBoolean("collect-metrics")){
 			try {
 		        MetricsLite metrics = new MetricsLite(this);
