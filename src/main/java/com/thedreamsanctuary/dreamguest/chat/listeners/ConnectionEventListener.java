@@ -27,7 +27,7 @@ public class ConnectionEventListener implements Listener{
     {
         final Player player = event.getPlayer();
         event.setJoinMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("join-message"), player));
-        if (pl.isFakeQuit(player))
+        if (isFakeQuit(player))
         {
             event.setJoinMessage("");
         }
@@ -45,7 +45,7 @@ public class ConnectionEventListener implements Listener{
     	final Player player = event.getPlayer();
 
         event.setQuitMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("leave-message"), player));
-        if (pl.isFakeQuit(player))
+        if (isFakeQuit(player))
         {
             event.setQuitMessage("");
         }
@@ -63,10 +63,17 @@ public class ConnectionEventListener implements Listener{
     	final Player player = event.getPlayer();
 
         event.setLeaveMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("kick-message"), player));
-        if (pl.isFakeQuit(player))
+        if (isFakeQuit(player))
         {
             event.setLeaveMessage("");
         }
         VanishFakeQuitHandler.handleLeave(player);
     }
+    
+    private boolean isFakeQuit(Player p){
+		if(!pl.isInstalled("com.thedreamsanctuary.dreamguest.admin.AdminModule.class")){
+			return false;
+		}
+		return VanishFakeQuitHandler.isFakeQuit(p);
+	}
 }

@@ -7,14 +7,12 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import com.thedreamsanctuary.dreamguest.admin.AdminModule;
-import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.border.BorderModule;
 import com.thedreamsanctuary.dreamguest.chat.ChatModule;
 import com.thedreamsanctuary.dreamguest.metrics.MetricsLite;
@@ -59,15 +57,20 @@ public class DreamGuest extends JavaPlugin{
 		}
 	}
 	
-	public boolean isVanished(Player player){
-		return VanishFakeQuitHandler.isVanished(player);
+	public boolean isInstalled(String className){
+		Class<?> clazz;
+		try {
+			clazz = Class.forName(className);
+			for(Module m : modules){
+				if(clazz.isInstance(m)){
+					return true;
+				}
+			}
+			return false;
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
+		
 	}
 	
-	public boolean isFakeQuit(Player player){
-		return VanishFakeQuitHandler.isFakeQuit(player);
-	}
-
-	public int getFakeQuitSize(){
-		return VanishFakeQuitHandler.getFakeQuitSize();
-	}
 }
