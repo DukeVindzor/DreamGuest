@@ -3,19 +3,18 @@ package com.thedreamsanctuary.dreamguest.chat.command;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.md_5.bungee.api.ChatColor;
-
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import com.thedreamsanctuary.dreamguest.DreamGuest;
-import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.CommandHandler;
+import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class AddAFKMessage extends CommandHandler{
 
-	public AddAFKMessage(DreamGuest pl) {
-		super(pl);
+	public AddAFKMessage(Module m) {
+		super(m);
 	}
 
 	@Override

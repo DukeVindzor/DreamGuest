@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
 
-public class ChatPlayerEventListener implements Listener{
+public class PlayerEventListener implements Listener{
 	/**
      * Handles player move events.
      *

@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 
-public class AdminPlayerEventListener implements Listener{
+public class PlayerEventListener implements Listener{
 	/**
      * Handles entity target events.
      *

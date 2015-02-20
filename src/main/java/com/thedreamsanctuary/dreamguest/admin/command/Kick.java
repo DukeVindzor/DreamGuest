@@ -5,13 +5,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import com.thedreamsanctuary.dreamguest.DreamGuest;
-import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+
+import com.thedreamsanctuary.dreamguest.CommandHandler;
+import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 
 public class Kick extends CommandHandler{
-	public Kick(DreamGuest pl) {
-		super(pl);
+	public Kick(Module m) {
+		super(m);
 	}
 
 	@Override

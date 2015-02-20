@@ -6,17 +6,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
-import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.CommandHandler;
 
 public class Vanish extends CommandHandler{
 	static final String vanishstring = "You have vanished!";
 	static final String appearstring = "You have reappeared!";
 	static final String vanishotherstring = "You have vanished the player ${n}!";
 	static final String appearotherstring = "You have made the player ${n} reappear!";
-	public Vanish(DreamGuest pl) {
-		super(pl);
+	public Vanish(Module m) {
+		super(m);
 	}
 
 	@Override

@@ -9,18 +9,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.thedreamsanctuary.dreamguest.DreamGuest;
-import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.CommandHandler;
+import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.admin.handlers.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.BanResult;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
 public class Ban extends CommandHandler{
-	private final DreamGuest pl;
-	public Ban(DreamGuest pl) {
-		super(pl);
-		this.pl = pl;
+	public Ban(Module m) {
+		super(m);
 	}
 
 	@Override

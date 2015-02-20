@@ -9,7 +9,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import com.thedreamsanctuary.dreamguest.admin.handlers.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
-public class AdminConnectionEventListener implements Listener{
+public class ConnectionEventListener implements Listener{
 	/**
      * Handles banned players.
      *

@@ -1,26 +1,38 @@
 package com.thedreamsanctuary.dreamguest.admin.command;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import com.thedreamsanctuary.dreamguest.DreamGuest;
-import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.CommandHandler;
+import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.admin.handlers.BanHandler;
 import com.thedreamsanctuary.dreamguest.util.BanResult;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
-public class Unban extends CommandHandler{
+public class Unban extends CommandHandler implements TabCompleter{
 
-	public Unban(DreamGuest pl) {
-		super(pl);
+	public Unban(Module m) {
+		super(m);
 	}
-
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+		if(cmd.getName().equalsIgnoreCase("unban")&& args.length >=1){
+			if(sender instanceof Player){
+				return BanHandler.getBannedPlayers();
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		if(args.length != 1){

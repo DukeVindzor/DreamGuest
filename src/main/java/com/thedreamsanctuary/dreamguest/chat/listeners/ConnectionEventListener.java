@@ -11,10 +11,10 @@ import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 
-public class ChatConnectionEventListener implements Listener{
+public class ConnectionEventListener implements Listener{
 	private final DreamGuest pl;
 	
-	public ChatConnectionEventListener(DreamGuest pl){
+	public ConnectionEventListener(DreamGuest pl){
 		this.pl = pl;
 	}
 	/**

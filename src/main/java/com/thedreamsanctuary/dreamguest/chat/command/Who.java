@@ -14,14 +14,14 @@ import org.bukkit.entity.Player;
 
 import ru.tehkode.permissions.PermissionGroup;
 
-import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
 import com.thedreamsanctuary.dreamguest.chat.handlers.PermissionHandler;
-import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.CommandHandler;
+import com.thedreamsanctuary.dreamguest.Module;
 
 public class Who extends CommandHandler{
-	public Who(DreamGuest pl) {
-		super(pl);
+	public Who(Module m) {
+		super(m);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

@@ -2,6 +2,8 @@ package com.thedreamsanctuary.dreamguest;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -11,29 +13,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import com.thedreamsanctuary.dreamguest.admin.command.Ban;
-import com.thedreamsanctuary.dreamguest.admin.command.BanReason;
-import com.thedreamsanctuary.dreamguest.admin.command.Kick;
-import com.thedreamsanctuary.dreamguest.admin.command.Unban;
-import com.thedreamsanctuary.dreamguest.admin.command.Vanish;
+import com.thedreamsanctuary.dreamguest.admin.AdminModule;
 import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
-import com.thedreamsanctuary.dreamguest.admin.listeners.AdminConnectionEventListener;
-import com.thedreamsanctuary.dreamguest.admin.listeners.AdminPlayerEventListener;
-import com.thedreamsanctuary.dreamguest.admin.tabcompletion.ConstructTabComplete;
-import com.thedreamsanctuary.dreamguest.border.command.DBorder;
-import com.thedreamsanctuary.dreamguest.border.handlers.BorderHandler;
-import com.thedreamsanctuary.dreamguest.border.listeners.BorderListener;
-import com.thedreamsanctuary.dreamguest.chat.command.AFK;
-import com.thedreamsanctuary.dreamguest.chat.command.AddAFKMessage;
-import com.thedreamsanctuary.dreamguest.chat.command.Who;
-import com.thedreamsanctuary.dreamguest.chat.listeners.ChatConnectionEventListener;
-import com.thedreamsanctuary.dreamguest.chat.listeners.ChatPlayerEventListener;
+import com.thedreamsanctuary.dreamguest.border.BorderModule;
+import com.thedreamsanctuary.dreamguest.chat.ChatModule;
 import com.thedreamsanctuary.dreamguest.metrics.MetricsLite;
 import com.thedreamsanctuary.dreamguest.util.JSON;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class DreamGuest extends JavaPlugin{
 	public static PermissionManager pex;
+	private List<Module> modules = new ArrayList<Module>();
 	public void onEnable(){
 		this.saveDefaultConfig();
 		//initialize PEX Manager
@@ -47,23 +37,11 @@ public class DreamGuest extends JavaPlugin{
 			return;
 		}
 		
-		BorderHandler.init(this);
+		modules.add(new AdminModule(this));
+		modules.add(new ChatModule(this));
+		modules.add(new BorderModule(this));
 		
-		this.getCommand("who").setExecutor(new Who(this));
-		this.getCommand("ban").setExecutor(new Ban(this));
-		this.getCommand("unban").setExecutor(new Unban(this));
-		this.getCommand("unban").setTabCompleter(new ConstructTabComplete());
-		this.getCommand("banreason").setExecutor(new BanReason(this));
-		this.getCommand("kick").setExecutor(new Kick(this));
-		this.getCommand("afk").setExecutor(new AFK(this));
-		this.getCommand("addafkmessage").setExecutor(new AddAFKMessage(this));
-		this.getCommand("vanish").setExecutor(new Vanish(this));
-		this.getCommand("dborder").setExecutor(new DBorder(this));
-		this.getServer().getPluginManager().registerEvents(new ChatConnectionEventListener(this), this);
-		this.getServer().getPluginManager().registerEvents(new AdminConnectionEventListener(), this);
-		this.getServer().getPluginManager().registerEvents(new ChatPlayerEventListener(), this);
-		this.getServer().getPluginManager().registerEvents(new AdminPlayerEventListener(), this);
-		this.getServer().getPluginManager().registerEvents(new BorderListener(), this);
+		
 		if(getConfig().getBoolean("collect-metrics")){
 			try {
 		        MetricsLite metrics = new MetricsLite(this);
@@ -76,11 +54,9 @@ public class DreamGuest extends JavaPlugin{
 	}
 	
 	public void onDisable(){
-		BorderHandler.saveBorders(BorderHandler.getBorderFile());
-	}
-	
-	public PermissionManager getPermissionManager(){
-		return pex;
+		for(Module m : modules){
+			m.disable();
+		}
 	}
 	
 	public boolean isVanished(Player player){

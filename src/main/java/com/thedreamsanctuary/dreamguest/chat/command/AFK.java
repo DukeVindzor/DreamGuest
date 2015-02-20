@@ -8,16 +8,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
-import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.CommandHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class AFK extends CommandHandler{
 
-	public AFK(DreamGuest pl) {
-		super(pl);
+	public AFK(Module m) {
+		super(m);
 	}
 
 	@Override

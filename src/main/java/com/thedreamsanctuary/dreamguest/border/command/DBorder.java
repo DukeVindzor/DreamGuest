@@ -1,5 +1,6 @@
 package com.thedreamsanctuary.dreamguest.border.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
@@ -8,18 +9,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.border.Border;
 import com.thedreamsanctuary.dreamguest.border.handlers.BorderHandler;
-import com.thedreamsanctuary.dreamguest.command.CommandHandler;
+import com.thedreamsanctuary.dreamguest.CommandHandler;
 
-public class DBorder extends CommandHandler{
+public class DBorder extends CommandHandler implements TabCompleter{
 	private HashMap<String, Argument> arguments = new HashMap<String, Argument>();
 	private final String usage = "/dborder <create|delete|edit|list> [arguments] ";
-	public DBorder(DreamGuest pl) {
-		super(pl);
+	public DBorder(Module m) {
+		super(m);
 		arguments.put("create", new Create());
 		arguments.put("delete", new Delete());
 		arguments.put("edit", new Edit());
@@ -49,6 +51,13 @@ public class DBorder extends CommandHandler{
 		}
 		arg.run(player, args);
 		return true;
+	}
+
+	@Override
+	public java.util.List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+		java.util.List<String> output = new ArrayList<String>();
+		output.addAll(arguments.keySet());
+		return output;
 	}
 
 }
