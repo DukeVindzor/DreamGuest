@@ -48,7 +48,7 @@ This plugin uses PEX functions that Vault does not provide. I will try to move t
 
 <h3>/dborder</h3>
 <b>Permission node:</b> <code>dreamguest.border.manage</code> <br>
-<b>Usage: </b> /dborder &lt;create|edit|delete|list&rt; &lt;arguments&rt; <br>
+<b>Usage: </b> /dborder &lt;create|edit|delete|list&gt; &lt;arguments&gt; <br>
 <b>Description: </b> Manages borders. Use the command with only the selector to receive usage for the specified selector.<br>
 
 <h2>Permission nodes</h2>
@@ -63,7 +63,7 @@ This plugin uses PEX functions that Vault does not provide. I will try to move t
 <code>dreamguest.admin.vanish</code> - Grants access to /vanish <br>
 <br>
 <code>dreamguest.border.manage</code> - Grants access to /dborder <br>
-<code>dreamguest.border.enter.&lt;NAME&rt;</code> - Grants user access to the border with the specified name <br>
+<code>dreamguest.border.enter.&lt;NAME&gt;</code> - Grants user access to the border with the specified name <br>
 <code>dreamguest.border.enderpearl</code> - Allows users to cross borders via Enderpearls
 
 <h2>Configuration</h2>
