@@ -46,6 +46,26 @@ This plugin uses PEX functions that Vault does not provide. I will try to move t
 <b>Usage: </b> /vanish [target] <br>
 <b>Description: </b> Vanishes the targeted player, hiding him from people without the <code>dreamguest.admin.vanish</code> permission. Leave target blank to target yourself.<br>
 
+<h3>/dborder</h3>
+<b>Permission node:</b> <code>dreamguest.border.manage</code> <br>
+<b>Usage: </b> /dborder &lt;create|edit|delete|list&rt; &lt;arguments&rt; <br>
+<b>Description: </b> Manages borders. Use the command with only the selector to receive usage for the specified selector.<br>
+
+<h2>Permission nodes</h2>
+<code>dreamguest.chat.who</code> - Grants access to /who command <br>
+<code>dreamguest.chat.afk</code> - Grants access to /afk command <br>
+<code>dreamguest.chat.addafkmessage</code> - Enables user to add afk messages via /addafkmessage <br>
+<br>
+<code>dreamguest.admin.kick</code> - Grants access to /kick <br>
+<code>dreamguest.admin.ban</code> - Grants access to /ban <br>
+<code>dreamguest.admin.unban</code> - Grants access to /unban <br>
+<code>dreamguest.admin.banreason</code> - Grants access to /banreason <br>
+<code>dreamguest.admin.vanish</code> - Grants access to /vanish <br>
+<br>
+<code>dreamguest.border.manage</code> - Grants access to /dborder <br>
+<code>dreamguest.border.enter.&lt;NAME&rt;</code> - Grants user access to the border with the specified name <br>
+<code>dreamguest.border.enderpearl</code> - Allows users to cross borders via Enderpearls
+
 <h2>Configuration</h2>
 The default configuration file:
 <pre>
