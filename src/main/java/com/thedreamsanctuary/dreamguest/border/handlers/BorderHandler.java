@@ -119,7 +119,6 @@ public class BorderHandler {
 	    				}	
 	    			}
 	    			if(player.hasPermission(b.getPermission())){
-	    				System.out.println("Player " + player.getDisplayName() + " has permission " + b.getPermission());
 	    				if(canEnter){
 	    					player.sendMessage(ChatColor.GRAY + "Now crossing border of " + ChatColor.GREEN + b.getName().trim());
 	    					continue;

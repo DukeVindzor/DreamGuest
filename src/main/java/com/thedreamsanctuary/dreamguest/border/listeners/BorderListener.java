@@ -104,7 +104,6 @@ public class BorderListener implements Listener{
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerTeleport(final PlayerTeleportEvent event){
-		System.out.println("Player " + event.getPlayer().getDisplayName() + " teleporting");
 		if(event.getTo() == null){
 			event.setCancelled(true);
 			return;

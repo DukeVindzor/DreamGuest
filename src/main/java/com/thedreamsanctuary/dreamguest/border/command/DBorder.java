@@ -63,7 +63,6 @@ class Create extends Argument{
 	
 	@Override
 	void run(Player player, String[] args) {
-		player.sendMessage("Creating zone!");
 		final int x1, z1, x2, z2;
         try
         {
