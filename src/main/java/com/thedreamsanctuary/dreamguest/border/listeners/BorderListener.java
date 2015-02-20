@@ -35,6 +35,9 @@ public class BorderListener implements Listener{
 	public void onPlayerInteract(final PlayerInteractEvent event){
 		if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
 			//replacement EnderPearl handler
+			if(event.getItem() == null){
+				return;
+			}
 			if (event.getItem().getType().equals(Material.ENDER_PEARL)){
 				event.setUseItemInHand(Result.DENY);
 				if(!event.isCancelled()){
