@@ -14,14 +14,14 @@ import org.bukkit.entity.Player;
 
 import ru.tehkode.permissions.PermissionGroup;
 
-import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
+import com.thedreamsanctuary.dreamguest.chat.ChatModule;
 import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
 import com.thedreamsanctuary.dreamguest.chat.handlers.PermissionHandler;
 import com.thedreamsanctuary.dreamguest.CommandHandler;
-import com.thedreamsanctuary.dreamguest.Module;
 
 public class Who extends CommandHandler{
-	public Who(Module m) {
+	ChatModule m;
+	public Who(ChatModule m) {
 		super(m);
 	}
 	
@@ -47,7 +47,7 @@ public class Who extends CommandHandler{
 			for(Player player : entry.getValue()){
 				comma = false;
 				//if player is fakequit
-				if(isFakeQuit(player)){
+				if(m.getAdminConnector().isFakeQuit(player)){
 					//if commandsender can't see fakequit people, skip this player
 					if(!canSeeFQ){
 						continue;
@@ -96,7 +96,7 @@ public class Who extends CommandHandler{
 			//iterate through online players
 			for(Player player : Bukkit.getOnlinePlayers()){
 				//if the player is fakequit, skip if canSeeFQ equals false
-				if(isFakeQuit(player)){
+				if(m.getAdminConnector().isFakeQuit(player)){
 					if(!canSeeFQ){
 						continue;
 					}
@@ -119,7 +119,7 @@ public class Who extends CommandHandler{
 			
 		}
 		//get total to the user visible online players
-		final int onlinePlayers = canSeeFQ ? Bukkit.getOnlinePlayers().size() : Bukkit.getOnlinePlayers().size() - VanishFakeQuitHandler.getFakeQuitSize();
+		final int onlinePlayers = canSeeFQ ? Bukkit.getOnlinePlayers().size() : Bukkit.getOnlinePlayers().size() - m.getAdminConnector().getFakeQuitSize();
 		//append "Overall" character
 		stringBuilder.append(ChatColor.DARK_GRAY).append("(").append(ChatColor.WHITE).append("O:").append(onlinePlayers).append(ChatColor.DARK_GRAY).append(")");
 		//return finished legend
@@ -163,7 +163,7 @@ public class Who extends CommandHandler{
 				//if not, create new player ArrayList for current group
 				final List<Player> newGroupList = new ArrayList<Player>();
 				//if current player is fakequit, only include if canSeeFQ is set to true
-				if(isFakeQuit(player)){
+				if(m.getAdminConnector().isFakeQuit(player)){
 					if(!canSeeFQ){
 						continue;
 					}
@@ -175,7 +175,7 @@ public class Who extends CommandHandler{
 			//group entry already exists
 			}else{
 				//if current player is fakequit, only include if canSeeFQ is set to true
-				if(isFakeQuit(player)){
+				if(m.getAdminConnector().isFakeQuit(player)){
 					if(!canSeeFQ){
 						continue;
 					}
@@ -185,13 +185,6 @@ public class Who extends CommandHandler{
 			}
 		}
 		return groupPlayerMap;
-	}
-	
-	private boolean isFakeQuit(Player p){
-		if(!pl.isInstalled("com.thedreamsanctuary.dreamguest.admin.AdminModule.class")){
-			return false;
-		}
-		return VanishFakeQuitHandler.isFakeQuit(p);
 	}
 
 }
