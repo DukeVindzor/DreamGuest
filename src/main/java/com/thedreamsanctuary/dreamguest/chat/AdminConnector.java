@@ -5,32 +5,33 @@ import org.bukkit.entity.Player;
 import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 
 public class AdminConnector {
-	private final ChatModule m;
-	private final boolean enabled;
-	public AdminConnector(ChatModule m){
-		this.m = m;
-		if(m.getPlugin().isInstalled("com.thedreamsanctuary.dreamguest.admin.AdminModule.class")){
+	private static ChatModule module;
+	private static boolean enabled;
+	
+	public static void init(ChatModule m){
+		module = m;
+		if(module.getPlugin().isInstalled("com.thedreamsanctuary.dreamguest.admin.AdminModule.class")){
 			enabled = true;
 		}else{
 			enabled = false;
 		}
 	}
 	
-	public boolean isVanished(Player p){
+	public static boolean isVanished(Player p){
 		if(!enabled){
 			return false;
 		}
 		return VanishFakeQuitHandler.isVanished(p);
 	}
 	
-	public boolean isFakeQuit(Player p){
+	public static boolean isFakeQuit(Player p){
 		if(!enabled){
 			return false;
 		}
 		return VanishFakeQuitHandler.isFakeQuit(p);
 	}
 	
-	public int getFakeQuitSize(){
+	public static int getFakeQuitSize(){
 		if(!enabled){
 			return 0;
 		}

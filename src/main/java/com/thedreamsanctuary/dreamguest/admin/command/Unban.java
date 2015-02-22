@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -50,10 +51,10 @@ public class Unban extends CommandHandler implements TabCompleter{
 	
 	public boolean unbanByUUID(String target, CommandSender sender){
 		UUID playerUUID = UUID.fromString(target);
+		target = BanHandler.getBannedPlayerName(playerUUID);
 		BanResult result = BanHandler.unbanPlayer(playerUUID);
 		switch(result){
 		case SUCCESS:
-			target = Bukkit.getOfflinePlayer(playerUUID).getName();
 			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-unban-message"), sender.getName(), target, ""));
 			return true;
 		case ERROR:
@@ -75,6 +76,7 @@ public class Unban extends CommandHandler implements TabCompleter{
 				UUID playerUUID = UUIDFetcher.getUUIDOf(target);
 				return unbanByUUID(playerUUID.toString(),sender);
 			} catch (Exception e) {
+				e.printStackTrace();
 				sender.sendMessage(ChatColor.RED + "Player could not be found.");
 				return true;
 			}

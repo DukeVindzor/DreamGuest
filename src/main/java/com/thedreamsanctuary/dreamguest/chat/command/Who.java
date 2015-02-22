@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import ru.tehkode.permissions.PermissionGroup;
 
+import com.thedreamsanctuary.dreamguest.chat.AdminConnector;
 import com.thedreamsanctuary.dreamguest.chat.ChatModule;
 import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
 import com.thedreamsanctuary.dreamguest.chat.handlers.PermissionHandler;
@@ -47,7 +48,7 @@ public class Who extends CommandHandler{
 			for(Player player : entry.getValue()){
 				comma = false;
 				//if player is fakequit
-				if(m.getAdminConnector().isFakeQuit(player)){
+				if(AdminConnector.isFakeQuit(player)){
 					//if commandsender can't see fakequit people, skip this player
 					if(!canSeeFQ){
 						continue;
@@ -96,7 +97,7 @@ public class Who extends CommandHandler{
 			//iterate through online players
 			for(Player player : Bukkit.getOnlinePlayers()){
 				//if the player is fakequit, skip if canSeeFQ equals false
-				if(m.getAdminConnector().isFakeQuit(player)){
+				if(AdminConnector.isFakeQuit(player)){
 					if(!canSeeFQ){
 						continue;
 					}
@@ -119,7 +120,7 @@ public class Who extends CommandHandler{
 			
 		}
 		//get total to the user visible online players
-		final int onlinePlayers = canSeeFQ ? Bukkit.getOnlinePlayers().size() : Bukkit.getOnlinePlayers().size() - m.getAdminConnector().getFakeQuitSize();
+		final int onlinePlayers = canSeeFQ ? Bukkit.getOnlinePlayers().size() : Bukkit.getOnlinePlayers().size() - AdminConnector.getFakeQuitSize();
 		//append "Overall" character
 		stringBuilder.append(ChatColor.DARK_GRAY).append("(").append(ChatColor.WHITE).append("O:").append(onlinePlayers).append(ChatColor.DARK_GRAY).append(")");
 		//return finished legend
@@ -163,7 +164,7 @@ public class Who extends CommandHandler{
 				//if not, create new player ArrayList for current group
 				final List<Player> newGroupList = new ArrayList<Player>();
 				//if current player is fakequit, only include if canSeeFQ is set to true
-				if(m.getAdminConnector().isFakeQuit(player)){
+				if(AdminConnector.isFakeQuit(player)){
 					if(!canSeeFQ){
 						continue;
 					}
@@ -175,7 +176,7 @@ public class Who extends CommandHandler{
 			//group entry already exists
 			}else{
 				//if current player is fakequit, only include if canSeeFQ is set to true
-				if(m.getAdminConnector().isFakeQuit(player)){
+				if(AdminConnector.isFakeQuit(player)){
 					if(!canSeeFQ){
 						continue;
 					}
