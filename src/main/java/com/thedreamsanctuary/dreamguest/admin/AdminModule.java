@@ -7,6 +7,7 @@ import com.thedreamsanctuary.dreamguest.admin.command.BanReasonCommand;
 import com.thedreamsanctuary.dreamguest.admin.command.KickCommand;
 import com.thedreamsanctuary.dreamguest.admin.command.UnbanCommand;
 import com.thedreamsanctuary.dreamguest.admin.command.VanishCommand;
+import com.thedreamsanctuary.dreamguest.admin.handlers.BanHandler;
 import com.thedreamsanctuary.dreamguest.admin.listeners.ConnectionEventListener;
 import com.thedreamsanctuary.dreamguest.admin.listeners.PlayerEventListener;
 
@@ -18,11 +19,12 @@ public class AdminModule extends Module{
 
 	@Override
 	public void disable() {
-		
+		BanHandler.saveBans(BanHandler.getBanFile());
 	}
 
 	@Override
 	public void enable() {
+		BanHandler.init(this.getPlugin());
 		addCommand("ban", new BanCommand(this));
 		addCommand("unban", new UnbanCommand(this));
 		addCommand("banreason", new BanReasonCommand(this));

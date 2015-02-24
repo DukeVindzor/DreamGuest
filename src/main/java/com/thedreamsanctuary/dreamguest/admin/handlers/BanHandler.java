@@ -1,26 +1,168 @@
 package com.thedreamsanctuary.dreamguest.admin.handlers;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
-import org.json.simple.JSONObject;
 
+import com.google.gson.Gson;
+import com.thedreamsanctuary.dreamguest.DreamGuest;
+import com.thedreamsanctuary.dreamguest.admin.Ban;
 import com.thedreamsanctuary.dreamguest.util.BanResult;
-import com.thedreamsanctuary.dreamguest.util.JSON;
 
 public class BanHandler {
+	private static final File BANS_FILE = new File("plugins/DreamGuest/bans.json");
+	private static Set<Ban> bans = new HashSet<Ban>();
+	private static DreamGuest plugin;
+	public static void init(DreamGuest pl){
+		plugin = pl;
+		final File banFolder = new File("plugins/DreamGuest/");
+		if(!banFolder.exists()){
+			banFolder.mkdirs();
+		}
+		readBans(getBanFile());
+	}
+	
+	public static boolean addBan(Ban b){
+		for(Ban ban : bans){
+			if(b.getUUID().equals(ban.getUUID())){
+				return false;
+			}
+		}
+		boolean success = bans.add(b);
+		if(success){
+			saveBans(getBanFile());
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public static Ban getBan(UUID playerUUID){
+		for (final Ban b : bans)
+        {
+            if (b.getUUID().equals(playerUUID))
+            {
+                return b;
+            }
+        }
+        return null;
+	}
+	
+	public static boolean removeBan(final Ban oldBan)
+    {
+        final boolean success = bans.remove(oldBan);
+        return success;
+    }
+
+	public static void readBans(final File banFile)
+    {
+        final Gson gson = new Gson();
+        if (banFile.exists())
+        {
+            Scanner scan;
+            try
+            {
+                scan = new Scanner(banFile);
+            }
+            catch (final Exception e)
+            {
+                plugin.getLogger().severe("Can not open config files");
+                e.printStackTrace();
+                return;
+            }
+            try
+            {
+                while (scan.hasNextLine())
+                {
+                    final Ban ban = gson.fromJson(scan.nextLine(), Ban.class);
+                    addBan(ban);
+                }
+            }
+            catch (final Exception e)
+            {
+                plugin.getLogger().severe("Can not read config files");
+                e.printStackTrace();
+                return;
+            }
+            finally
+            {
+                scan.close();
+            }
+        }
+        else
+        {
+
+        }
+    }
+
+    public static void saveBans(final File banfile)
+    {
+        final Gson gson = new Gson();
+        if (!banfile.exists())
+        {
+            try
+            {
+                banfile.createNewFile();
+            }
+            catch (final IOException e)
+            {
+                e.printStackTrace();
+                return;
+            }
+        }
+        else
+        {
+            if (!banfile.delete())
+            {
+                plugin.getLogger().severe("Can not save config files");
+            }
+            try
+            {
+                banfile.createNewFile();
+            }
+            catch (final IOException e)
+            {
+                e.printStackTrace();
+                return;
+            }
+        }
+        PrintWriter pw;
+        try
+        {
+            pw = new PrintWriter(banfile);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            return;
+        }
+        for (final Ban b : bans)
+        {
+                pw.println(gson.toJson(b));
+        }
+        pw.close();
+    }
+	
+	 public static File getBanFile()
+	    {
+	        return BANS_FILE;
+	    }
 	/**
 	 * check whether a player is banned or not
 	 * @param playerUUID UUID of the player to check
 	 * @return true if player is banned, false if not
 	 */
 	public static boolean isPlayerBanned(UUID playerUUID){
-		//parse bans.json into JSONObject
-		JSONObject banlist = JSON.parseFile("bans");
-		//check if banlist contains player UUID
-		if(banlist.containsKey(playerUUID.toString())){
+		if(getBan(playerUUID)!=null){
 			return true;
 		}
 		return false;
@@ -32,9 +174,11 @@ public class BanHandler {
 	 * @return the banreason specified in bans.json
 	 */
 	public static String getPlayerBanreason(UUID playerUUID){
-		JSONObject banlist = JSON.parseFile("bans");
-		JSONObject entry = (JSONObject) banlist.get(playerUUID.toString());
-		return entry.get("reason").toString();
+		Ban b = getBan(playerUUID);
+		if(b==null){
+			return "";
+		}
+		return b.getReason();
 	}
 	
 	/**
@@ -43,28 +187,12 @@ public class BanHandler {
 	 * @param reason the reason of banning
 	 * @return ALREADY_BANNED if player is already banned, ERROR if a parsing error occurred, SUCCESS if player has been successfully banned
 	 */
-	@SuppressWarnings("unchecked")
 	public static BanResult addPlayer(CommandSender sender, UUID playerUUID, String banName, String reason){
 		//if player is already banned, return as ALREADY_BANNED;
 		if(isPlayerBanned(playerUUID)){
 			return BanResult.ALREADY_BANNED;
 		}
-		//create a new JSONObject to hold the ban
-		JSONObject obj = new JSONObject();
-		//put name and reason into the object
-		obj.put("name", banName);
-		obj.put("reason", reason);
-		obj.put("by", sender.getName());
-		//read banlist
-		JSONObject banlist = JSON.parseFile("bans");
-		//if banlist could not be parsed, return ERROR
-		if(banlist == null){
-			return BanResult.ERROR;
-		}
-		//put the ban object (name and reason) into the banlist at the key UUID
-		banlist.put(playerUUID, obj);
-		//write updated banlist to file
-		JSON.writeObjectToFile("bans", banlist);
+		addBan(new Ban(playerUUID, banName, sender.getName(), reason));
 		return BanResult.SUCCESS;
 	}
 	/**
@@ -77,16 +205,8 @@ public class BanHandler {
 		if(!isPlayerBanned(playerUUID)){
 			return BanResult.NOT_BANNED;
 		}
-		//parse ban file
-		JSONObject banlist = JSON.parseFile("bans");
-		//if ban file could not be parsed, return ERROR
-		if(banlist == null){
-			return BanResult.ERROR;
-		}
-		//remove entry at the position of the player UUID
-		banlist.remove(playerUUID.toString());
-		//write updated ban list to file
-		JSON.writeObjectToFile("bans", banlist);
+		removeBan(getBan(playerUUID));
+		saveBans(getBanFile());
 		return BanResult.SUCCESS;
 	}
 	/**
@@ -99,16 +219,7 @@ public class BanHandler {
 		if(!isPlayerBanned(playerUUID)){
 			return "";
 		}
-		//parse ban list
-		JSONObject banlist = JSON.parseFile("bans");
-		//if a parsing error occued, return an empty String
-		if(banlist == null){
-			return "";
-		}
-		//get the JSONObject at the key of the player's UUID
-		JSONObject entry = (JSONObject) banlist.get(playerUUID.toString());
-		//return the name entry of the ban object
-		return entry.get("name").toString();
+		return getBan(playerUUID).getName();
 	}
 	
 	/**
@@ -116,20 +227,19 @@ public class BanHandler {
 	 * @return a List<String> containing all the banned playernames
 	 */
 	public static List<String> getBannedPlayers(String start){
-		List<String> banned = new ArrayList<>();
-		JSONObject banlist = JSON.parseFile("bans");
-		//if a parsing error occued, return the empty list
-		if(banlist == null){
-			return banned;
-		}
-		for(Object object : banlist.keySet()){
-			JSONObject entry = (JSONObject) banlist.get(object);
-			String banName = entry.get("name").toString();
+		List<Ban> banned = new ArrayList<Ban>();
+		for(Ban b : bans){
+			String banName = b.getName();
 			if(banName.toLowerCase().startsWith(start.toLowerCase())){
-				banned.add(banName);
+				banned.add(b);
 			}
 		}
-		return banned;
+		Collections.sort(banned);
+		List<String> bannedNames = new ArrayList<String>();
+		for(Ban b : banned){
+			bannedNames.add(b.getName());
+		}
+		return bannedNames;
 	}
 	
 }

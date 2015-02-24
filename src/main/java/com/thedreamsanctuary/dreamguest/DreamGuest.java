@@ -16,7 +16,6 @@ import com.thedreamsanctuary.dreamguest.admin.AdminModule;
 import com.thedreamsanctuary.dreamguest.border.BorderModule;
 import com.thedreamsanctuary.dreamguest.chat.ChatModule;
 import com.thedreamsanctuary.dreamguest.metrics.MetricsLite;
-import com.thedreamsanctuary.dreamguest.util.JSON;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
 public class DreamGuest extends JavaPlugin{
@@ -26,10 +25,6 @@ public class DreamGuest extends JavaPlugin{
 		this.saveDefaultConfig();
 		//initialize PEX Manager
 		DreamGuest.pex = PermissionsEx.getPermissionManager();
-		if(!JSON.createFile("bans")){
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
 		if(this.getConfig().getBoolean("random-afk-messages")&&!Text.createFile("afk-messages")){
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
