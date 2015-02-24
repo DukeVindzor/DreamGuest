@@ -11,9 +11,9 @@ import com.thedreamsanctuary.dreamguest.CommandHandler;
 import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
-public class AddAFKMessage extends CommandHandler{
+public class AddAFKMessageCommand extends CommandHandler{
 
-	public AddAFKMessage(Module m) {
+	public AddAFKMessageCommand(Module m) {
 		super(m);
 	}
 

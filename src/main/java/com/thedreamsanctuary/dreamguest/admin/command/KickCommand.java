@@ -10,8 +10,8 @@ import com.thedreamsanctuary.dreamguest.CommandHandler;
 import com.thedreamsanctuary.dreamguest.Module;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 
-public class Kick extends CommandHandler{
-	public Kick(Module m) {
+public class KickCommand extends CommandHandler{
+	public KickCommand(Module m) {
 		super(m);
 	}
 

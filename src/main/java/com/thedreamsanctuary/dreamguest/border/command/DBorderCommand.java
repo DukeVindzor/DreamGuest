@@ -17,10 +17,10 @@ import com.thedreamsanctuary.dreamguest.border.Border;
 import com.thedreamsanctuary.dreamguest.border.handlers.BorderHandler;
 import com.thedreamsanctuary.dreamguest.CommandHandler;
 
-public class DBorder extends CommandHandler implements TabCompleter{
+public class DBorderCommand extends CommandHandler implements TabCompleter{
 	private HashMap<String, Argument> arguments = new HashMap<String, Argument>();
 	private final String usage = "/dborder <create|delete|edit|list> [arguments] ";
-	public DBorder(Module m) {
+	public DBorderCommand(Module m) {
 		super(m);
 		arguments.put("create", new Create());
 		arguments.put("delete", new Delete());

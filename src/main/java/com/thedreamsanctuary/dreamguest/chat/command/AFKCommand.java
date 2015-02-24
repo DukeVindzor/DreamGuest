@@ -14,9 +14,9 @@ import com.thedreamsanctuary.dreamguest.CommandHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
-public class AFK extends CommandHandler{
+public class AFKCommand extends CommandHandler{
 
-	public AFK(Module m) {
+	public AFKCommand(Module m) {
 		super(m);
 	}
 

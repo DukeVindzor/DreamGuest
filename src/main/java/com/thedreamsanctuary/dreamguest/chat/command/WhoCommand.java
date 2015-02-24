@@ -20,9 +20,9 @@ import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
 import com.thedreamsanctuary.dreamguest.chat.handlers.PermissionHandler;
 import com.thedreamsanctuary.dreamguest.CommandHandler;
 
-public class Who extends CommandHandler{
+public class WhoCommand extends CommandHandler{
 	ChatModule m;
-	public Who(ChatModule m) {
+	public WhoCommand(ChatModule m) {
 		super(m);
 	}
 	

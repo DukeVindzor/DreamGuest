@@ -12,8 +12,8 @@ import com.thedreamsanctuary.dreamguest.CommandHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
-public class BanReason extends CommandHandler{
-	public BanReason(Module m) {
+public class BanReasonCommand extends CommandHandler{
+	public BanReasonCommand(Module m) {
 		super(m);
 	}
 

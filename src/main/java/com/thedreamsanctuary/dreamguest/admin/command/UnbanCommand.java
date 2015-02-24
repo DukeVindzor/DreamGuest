@@ -19,9 +19,9 @@ import com.thedreamsanctuary.dreamguest.util.BanResult;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
-public class Unban extends CommandHandler implements TabCompleter{
+public class UnbanCommand extends CommandHandler implements TabCompleter{
 
-	public Unban(Module m) {
+	public UnbanCommand(Module m) {
 		super(m);
 	}
 	
