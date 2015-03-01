@@ -11,12 +11,9 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.command.CommandSender;
-
 import com.google.gson.Gson;
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.admin.Ban;
-import com.thedreamsanctuary.dreamguest.util.BanResult;
 
 public class BanHandler {
 	private static final File BANS_FILE = new File("plugins/DreamGuest/bans.json");
@@ -55,6 +52,15 @@ public class BanHandler {
             }
         }
         return null;
+	}
+	
+	public static Ban getBan(String name){
+		for(final Ban b : bans){
+			if(b.getName().equalsIgnoreCase(name)){
+				return b;
+			}
+		}
+		return null;
 	}
 	
 	public static boolean removeBan(final Ban oldBan)
@@ -182,32 +188,18 @@ public class BanHandler {
 	}
 	
 	/**
-	 * add a player to the banlist
-	 * @param playerUUID the UUID of the player to ban
-	 * @param reason the reason of banning
-	 * @return ALREADY_BANNED if player is already banned, ERROR if a parsing error occurred, SUCCESS if player has been successfully banned
-	 */
-	public static BanResult addPlayer(CommandSender sender, UUID playerUUID, String banName, String reason){
-		//if player is already banned, return as ALREADY_BANNED;
-		if(isPlayerBanned(playerUUID)){
-			return BanResult.ALREADY_BANNED;
-		}
-		addBan(new Ban(playerUUID, banName, sender.getName(), reason));
-		return BanResult.SUCCESS;
-	}
-	/**
 	 * unbans a player
 	 * @param playerUUID the UUID of the player to ban
 	 * @return NOT_BANNED if player is not banned, ERROR if a parsing error occured, SUCCESS if player was unbanned successfully
 	 */
-	public static BanResult unbanPlayer(UUID playerUUID){
+	public static boolean unbanPlayer(UUID playerUUID){
 		//check if player is banned, if he isn't, return NOT_BANNED
 		if(!isPlayerBanned(playerUUID)){
-			return BanResult.NOT_BANNED;
+			return false;
 		}
 		removeBan(getBan(playerUUID));
 		saveBans(getBanFile());
-		return BanResult.SUCCESS;
+		return true;
 	}
 	/**
 	 * get a banned player's name

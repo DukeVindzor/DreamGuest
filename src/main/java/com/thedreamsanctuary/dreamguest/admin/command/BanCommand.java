@@ -2,7 +2,6 @@ package com.thedreamsanctuary.dreamguest.admin.command;
 
 import java.util.UUID;
 
-import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,8 +10,8 @@ import org.bukkit.entity.Player;
 
 import com.thedreamsanctuary.dreamguest.CommandHandler;
 import com.thedreamsanctuary.dreamguest.Module;
+import com.thedreamsanctuary.dreamguest.admin.Ban;
 import com.thedreamsanctuary.dreamguest.admin.handlers.BanHandler;
-import com.thedreamsanctuary.dreamguest.util.BanResult;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 import com.thedreamsanctuary.dreamguest.util.UUIDFetcher;
 
@@ -42,10 +41,8 @@ public class BanCommand extends CommandHandler{
 			
 		}
 		UUID playerUUID;
-		boolean online = true;
 		//if no player was found by name, treat argument as UUID
 		if(player==null){
-			online = false;
 			try {
 				playerUUID = UUIDFetcher.getUUIDOf(target);
 			} catch (Exception e) {
@@ -53,35 +50,21 @@ public class BanCommand extends CommandHandler{
 				return true;
 			}
 		}else{
+			target = player.getName();
 			playerUUID = player.getUniqueId();
 		}
 		if(playerUUID == null){
 			sender.sendMessage(ChatColor.RED + "Player could not be found");
 			return true;
 		}
-		String banName = target;
-		BanResult result = BanHandler.addPlayer(sender, playerUUID, banName, reason);
-		switch(result){
-		case SUCCESS:
-			//broadcast Ban Message
-			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), banName, reason));
-			if(online){
+		Ban b = new Ban(playerUUID, target, sender.getName(), reason);
+		if(BanHandler.addBan(b)){
+			if(player != null){
 				player.kickPlayer(reason);
 			}
-			break;
-		case ALREADY_BANNED:
+			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), target, reason));
+		}else{
 			sender.sendMessage(ChatColor.RED + "That player is already banned.");
-			break;
-		case ERROR:
-			//bans.json couldn't be parsed, ban via bukkit internal methods instead
-			BanList bl = Bukkit.getBanList(BanList.Type.NAME);
-			bl.addBan(player.getDisplayName(), reason, null, sender.getName());
-			player.kickPlayer(reason);
-			Bukkit.broadcastMessage(MessageFormatter.formatKickBanMessage(pl.getConfig().getString("admin-ban-message"), sender.getName(), banName, reason));
-			sender.sendMessage(ChatColor.RED + "Error parsing ban file, banning via bukkit API. Please notify an Administrator of this.");
-			break;
-		default:
-			break;
 		}
 		return true;
 	}

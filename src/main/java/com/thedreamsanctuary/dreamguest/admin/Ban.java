@@ -24,10 +24,6 @@ public class Ban implements Comparable<Ban>, Serializable{
 		return playerUUID;
 	}
 
-	public UUID getPlayerUUID() {
-		return playerUUID;
-	}
-
 	public String getName() {
 		return name;
 	}
