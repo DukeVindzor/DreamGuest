@@ -11,10 +11,13 @@ import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.CommandHandler;
 
 public class VanishCommand extends CommandHandler{
-	static final String vanishstring = "You have vanished!";
-	static final String appearstring = "You have reappeared!";
-	static final String vanishotherstring = "You have vanished the player ${n}!";
-	static final String appearotherstring = "You have made the player ${n} reappear!";
+	static final ChatColor textcolor = ChatColor.AQUA;
+	static final String vanishstring = textcolor + "You have vanished!";
+	static final String appearstring = textcolor + "You have reappeared!";
+	static final String vanishotherstring = textcolor + "You have vanished the player "+ChatColor.GOLD+"${n}" + textcolor + "!";
+	static final String appearotherstring = textcolor + "You have made the player "+ChatColor.GOLD+"${n}" + textcolor + " reappear!";
+	static final String othervanishedstring = textcolor + "You have been vanished by the player "+ChatColor.GOLD+"${n}" + textcolor + "!";
+	static final String otherappearedstring = textcolor + "You have been unvanished by the player "+ChatColor.GOLD+"${n}" + textcolor + "!";
 	public VanishCommand(Module m) {
 		super(m);
 	}
@@ -34,10 +37,10 @@ public class VanishCommand extends CommandHandler{
 			//toggle Vanishing
 			if(VanishFakeQuitHandler.isVanished(player)){
 				VanishFakeQuitHandler.unvanishPlayer(player);
-				player.sendMessage(ChatColor.AQUA + appearstring);
+				player.sendMessage(appearstring);
 			}else{
 				VanishFakeQuitHandler.vanishPlayer(player);
-				player.sendMessage(ChatColor.AQUA + vanishstring);
+				player.sendMessage(vanishstring);
 			}
 			return true;
 		}
@@ -50,10 +53,12 @@ public class VanishCommand extends CommandHandler{
 		//toggle targeted players vanish status
 		if(VanishFakeQuitHandler.isVanished(player)){
 			VanishFakeQuitHandler.unvanishPlayer(player);
-			sender.sendMessage(ChatColor.AQUA + appearotherstring.replace("${n}", player.getDisplayName()));
+			sender.sendMessage(appearotherstring.replace("${n}", player.getDisplayName()));
+			player.sendMessage(otherappearedstring.replace("${n}", sender.getName()));
 		}else{
 			VanishFakeQuitHandler.vanishPlayer(player);
-			sender.sendMessage(ChatColor.AQUA + vanishotherstring.replace("${n}", player.getDisplayName()));
+			sender.sendMessage(vanishotherstring.replace("${n}", player.getDisplayName()));
+			player.sendMessage(othervanishedstring.replace("${n}", sender.getName()));
 		}
 		return true;
 	}
