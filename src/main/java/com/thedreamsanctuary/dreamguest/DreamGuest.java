@@ -18,14 +18,15 @@ import com.thedreamsanctuary.dreamguest.chat.ChatModule;
 import com.thedreamsanctuary.dreamguest.metrics.MetricsLite;
 import com.thedreamsanctuary.dreamguest.util.Text;
 
-public class DreamGuest extends JavaPlugin{
+public class DreamGuest extends JavaPlugin {
 	public static PermissionManager pex;
 	private List<Module> modules = new ArrayList<Module>();
+	
 	public void onEnable(){
 		this.saveDefaultConfig();
 		//initialize PEX Manager
 		DreamGuest.pex = PermissionsEx.getPermissionManager();
-		if(this.getConfig().getBoolean("random-afk-messages")&&!Text.createFile("afk-messages")){
+		if (this.getConfig().getBoolean("random-afk-messages")&&!Text.createFile("afk-messages")) {
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -35,34 +36,41 @@ public class DreamGuest extends JavaPlugin{
 		modules.add(new BorderModule(this));
 		
 		
-		if(getConfig().getBoolean("collect-metrics")){
+		if (getConfig().getBoolean("collect-metrics")) {
 			try {
 		        MetricsLite metrics = new MetricsLite(this);
 		        System.out.println(metrics.start());
 		        System.out.println("[DreamGuest] Logging enabled");
-		    } catch (IOException e) {
+		    }
+			catch (IOException e) {
 		        Bukkit.getLogger().log(Level.SEVERE, "Failed to link to metrics service, disabling metrics.");
 		    }
 		}
 	}
 	
 	public void onDisable(){
-		for(Module m : modules){
+		for (Module m : modules ){
 			m.disable();
 		}
 	}
 	
-	public boolean isInstalled(String className){
+	/**Checks if class is enabled in the plugin
+	 * 
+	 * @param className		Name of class
+	 * @return				Map with names as key and UUID as value
+	 */
+	public boolean isInstalled(String className) {
 		Class<?> clazz;
 		try {
 			clazz = Class.forName(className);
-			for(Module m : modules){
-				if(clazz.isInstance(m)){
+			for (Module m : modules) {
+				if (clazz.isInstance(m)) {
 					return true;
 				}
 			}
 			return false;
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			return false;
 		}
 		

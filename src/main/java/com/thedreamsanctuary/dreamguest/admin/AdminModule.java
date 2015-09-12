@@ -11,7 +11,7 @@ import com.thedreamsanctuary.dreamguest.admin.handlers.BanHandler;
 import com.thedreamsanctuary.dreamguest.admin.listeners.ConnectionEventListener;
 import com.thedreamsanctuary.dreamguest.admin.listeners.PlayerEventListener;
 
-public class AdminModule extends Module{
+public class AdminModule extends Module {
 
 	public AdminModule(DreamGuest pl) {
 		super(pl);
@@ -19,7 +19,7 @@ public class AdminModule extends Module{
 
 	@Override
 	public void disable() {
-		BanHandler.saveBans(BanHandler.getBanFile());
+		BanHandler.saveBans(BanHandler.BANS_FILE);
 	}
 
 	@Override

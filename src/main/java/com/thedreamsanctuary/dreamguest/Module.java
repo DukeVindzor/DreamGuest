@@ -12,6 +12,7 @@ public abstract class Module {
 	protected DreamGuest pl;
 	protected List<Listener> listeners;
 	protected Map<String, CommandHandler> commands;
+	
 	public Module(DreamGuest pl){
 		this.pl = pl;
 		this.listeners = new ArrayList<Listener>();
@@ -20,34 +21,53 @@ public abstract class Module {
 		this.enableCommandHandlers();
 		this.enableListeners();
 	}
-	public abstract void disable();
-	public abstract void enable();
-	public void addListener(Listener l){
-		if(!listeners.contains(l)){
-			listeners.add(l);
+	
+	public DreamGuest getPlugin(){
+		return pl;
+	}
+	
+	/**Adds a listener that module should listen to
+	 * 
+	 * @param listener		A listener module will subscribe to
+	 */
+	public void addListener(Listener listener) {
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
 		}
 	}
-	public void addCommand(String name, CommandHandler c){
-		if(!commands.containsKey(name)){
-			commands.put(name, c);
+	
+	/**Adds a command to the specified command handler
+	 * 
+	 * @param command				Command you want to add
+	 * @param commandHandler		Command handler you want to add this command to
+	 */
+	public void addCommand(String command, CommandHandler commandHandler){
+		if (!commands.containsKey(command)) {
+			commands.put(command, commandHandler);
 		}
 	}
+	
+	/**Registers the listeners to plugin
+	 */
 	public void enableListeners(){
-		for(Listener l : listeners){
+		for (Listener l : listeners) {
 			pl.getServer().getPluginManager().registerEvents(l, pl);
 		}
 	}
+	
+	/**Registers the commands and command handlers to plugin
+	 */
 	public void enableCommandHandlers(){
-		for(String s : commands.keySet()){
+		for (String s : commands.keySet()) {
 			CommandHandler c = commands.get(s);
 			pl.getCommand(s).setExecutor(c);
-			if(c instanceof TabCompleter){
+			if (c instanceof TabCompleter) {
 				TabCompleter tab = (TabCompleter) c;
 				pl.getCommand(s).setTabCompleter(tab);
 			}
 		}
 	}
-	public DreamGuest getPlugin(){
-		return pl;
-	}
+	
+	public abstract void disable();
+	public abstract void enable();
 }

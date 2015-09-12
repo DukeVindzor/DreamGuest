@@ -12,7 +12,7 @@ public class Ban implements Comparable<Ban>, Serializable{
 	private final String reason;
 	private final Date when;
 	
-	public Ban(UUID playerUUID, String name, String by, String reason){
+	public Ban(UUID playerUUID, String name, String by, String reason) {
 		this.playerUUID = playerUUID;
 		this.name = name;
 		this.by = by;
@@ -20,7 +20,7 @@ public class Ban implements Comparable<Ban>, Serializable{
 		this.when = new Date();
 	}
 	
-	public UUID getUUID(){
+	public UUID getUUID() {
 		return playerUUID;
 	}
 
@@ -42,13 +42,13 @@ public class Ban implements Comparable<Ban>, Serializable{
 
 	@Override
 	public int compareTo(Ban o) {
-		if(this.getWhen().before(o.getWhen())){
-			return -1;
-		}else if(this.getWhen().after(o.getWhen())){
-			return 1;
-		}else{
+		if (this.getWhen().equals(o.getWhen())) {
 			return 0;
 		}
+		if (this.getWhen().before(o.getWhen())) {
+			return -1;
+		}
+		return 1;
 	}
 
 }

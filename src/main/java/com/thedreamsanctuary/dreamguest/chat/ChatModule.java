@@ -8,16 +8,12 @@ import com.thedreamsanctuary.dreamguest.chat.command.WhoCommand;
 import com.thedreamsanctuary.dreamguest.chat.listeners.ConnectionEventListener;
 import com.thedreamsanctuary.dreamguest.chat.listeners.PlayerEventListener;
 
-public class ChatModule extends Module{
+public class ChatModule extends Module {
 	protected AdminConnector con;
+	
 	public ChatModule(DreamGuest pl) {
 		super(pl);
 		AdminConnector.init(this);
-	}
-
-	@Override
-	public void disable() {
-		
 	}
 
 	@Override
@@ -27,6 +23,10 @@ public class ChatModule extends Module{
 		addCommand("addafkmessage", new AddAFKMessageCommand(this));
 		addListener(new ConnectionEventListener(pl));
 		addListener(new PlayerEventListener());
+	}
+
+	@Override
+	public void disable() {
 	}
 
 }

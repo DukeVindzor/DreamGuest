@@ -1,5 +1,6 @@
 package com.thedreamsanctuary.dreamguest.chat.listeners;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -12,107 +13,79 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
 
-public class PlayerEventListener implements Listener{
-	/**
-     * Handles player move events.
+public class PlayerEventListener implements Listener {
+	
+	/**Handles player move events
      *
-     * @param event The Bukkit event.
+     * @param event		A PlayerMoveEvent
      */
     @EventHandler
-    public void onPlayerMove(final PlayerMoveEvent event)
-    {
-        if (event.getPlayer() != null)
-        {
-            AfkHandler.playerReturned(event.getPlayer());
-        }
+    public void onPlayerMove(PlayerMoveEvent event) {
+    	returnPlayer(event.getPlayer());
     }
 
-    /**
-     * Handles player chat events.
+    /**Handles player chat events
      *
-     * @param event The Bukkit event.
+     * @param event		An AsyncPlayerChatEvent
      */
     @EventHandler
-    public void onPlayerChat(final AsyncPlayerChatEvent event)
-    {
-        if (event.getPlayer() != null)
-        {
-        	AfkHandler.playerReturned(event.getPlayer());
-        }
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
+    	returnPlayer(event.getPlayer());
     }
 
-    /**
-     * Handles player teleport events.
+    /**Handles player teleport events
      *
-     * @param event The Bukkit event.
+     * @param event 	A PlayerTeleportEvent
      */
     @EventHandler
-    public void onPlayerTeleport(final PlayerTeleportEvent event)
-    {
-        if (event.getPlayer() != null)
-        {
-        	AfkHandler.playerReturned(event.getPlayer());
-        }
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+    	returnPlayer(event.getPlayer());
     }
+    
+    /**Handles player interact events
+    *
+    * @param event 	A PlayerInteractEvent
+    */
+   @EventHandler
+   public void onPlayerInteract(PlayerInteractEvent event) {
+   	returnPlayer(event.getPlayer());
+   }
 
-    /**
-     * Handles player command events.
+   /**Handles player quit events.
+    *
+    * @param event 	A PlayerQuitEvent
+    */
+   @EventHandler
+   public void onPlayerQuit(PlayerQuitEvent event) {
+   	returnPlayer(event.getPlayer());
+   }
+
+   /**Handles player kick events.
+    *
+    * @param event 	A PlayerKickEvent
+    */
+   @EventHandler
+   public void onPlayerKick(PlayerKickEvent event) {
+   	returnPlayer(event.getPlayer());
+   }
+
+    /**Handles player command events
      *
-     * @param event The Bukkit event.
+     * @param event 	A PlayerCommandPreprocessEvent
      */
     @EventHandler
-    public void onPlayerCommand(final PlayerCommandPreprocessEvent event)
-    {
-        if (event.getPlayer() != null)
-        {
-        	if(event.getMessage().startsWith("/afk")){
+    public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
+        if (event.getPlayer() != null) {
+        	if (event.getMessage().startsWith("/afk")) {
         		return;
         	}
         	AfkHandler.playerReturned(event.getPlayer());
         }
     }
 
-    /**
-     * Handles player interact events.
-     *
-     * @param event The Bukkit event.
-     */
-    @EventHandler
-    public void onPlayerInteract(final PlayerInteractEvent event)
-    {
-        if (event.getPlayer() != null)
-        {
-        	AfkHandler.playerReturned(event.getPlayer());
+    private static void returnPlayer(Player player) {
+    	if (player != null) {
+        	AfkHandler.playerReturned(player);
         }
     }
-
-    /**
-     * Handles player quit events.
-     *
-     * @param event The Bukkit event.
-     */
-    @EventHandler
-    public void onPlayerQuit(final PlayerQuitEvent event)
-    {
-        if (event.getPlayer() != null)
-        {
-        	AfkHandler.playerReturned(event.getPlayer());
-        }
-    }
-
-    /**
-     * Handles player kick events.
-     *
-     * @param event The Bukkit event.
-     */
-    @EventHandler
-    public void onPlayerKick(final PlayerKickEvent event)
-    {
-        if (event.getPlayer() != null)
-        {
-        	AfkHandler.playerReturned(event.getPlayer());
-        }
-    }
-    
-    
 }

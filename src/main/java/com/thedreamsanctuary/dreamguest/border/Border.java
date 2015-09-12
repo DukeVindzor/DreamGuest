@@ -9,23 +9,21 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
-import com.thedreamsanctuary.dreamguest.util.Vector2D;
 import com.thedreamsanctuary.dreamguest.util.WorldNotLoadedException;
-
-
 
 public class Border implements Serializable {
 	private static final long serialVersionUID = -1188011590624877570L;
-	private static final String permissionBase = "dreamguest.border.enter.";
-	private final Vector2D loc1;
-    private final Vector2D loc2;
+	private static final String PERMISSION_BASE = "dreamguest.border.enter.";
+	private final Vector loc1;
+    private final Vector loc2;
 	private UUID worldID;
 	private String name;
 	
-	public Border(String name, Vector2D loc1, Vector2D loc2, UUID worldID) {
-		this.loc1 = Vector2D.getMinimum(loc1, loc2);
-		this.loc2 = Vector2D.getMaximum(loc1, loc2);
+	public Border(String name, Vector loc1, Vector loc2, UUID worldID) {
+		this.loc1 = Vector.getMinimum(loc1, loc2);
+		this.loc2 = Vector.getMaximum(loc1, loc2);
 		this.worldID = worldID;
 		this.name = name;
 	}
@@ -34,87 +32,128 @@ public class Border implements Serializable {
 		this(name, loc1.getX(), loc1.getZ(), loc2.getX(), loc2.getZ(), loc1.getWorld().getUID());
 	}
 	
-	public Border(String name, double x1, double z1, double x2, double z2, UUID worldID){
-		this(name, new Vector2D(x1, z1), new Vector2D(x2, z2), worldID);
+	public Border(String name, double x1, double z1, double x2, double z2, UUID worldID) {
+		this(name, new Vector(x1, 0, z1), new Vector(x2, 0, z2), worldID);
 	}
 	
-	public String getName(){
+	public String getName() {
 		return name;
 	}
 	
-	public Vector2D getStart(){
+	public Vector getStart() {
 		return loc1;
 	}
 	
-	public Vector2D getEnd(){
+	public Vector getEnd() {
 		return loc2;
 	}
 	
-	public UUID getWorldID(){
+	public UUID getWorldID() {
 		return worldID;
 	}
 	
-	 public World getWorld() throws WorldNotLoadedException
-	    {
-	        final World zonesWorld = Bukkit.getWorld(this.worldID);
-	        if (zonesWorld != null)
-	        {
-	            return zonesWorld;
-	        }
-	        else
-	        {
-	            throw new WorldNotLoadedException(this.worldID);
-	        }
+	public World getWorld() throws WorldNotLoadedException {
+	    World zonesWorld = Bukkit.getWorld(this.worldID);
+	    if (zonesWorld != null) {
+	        return zonesWorld;
 	    }
+	    else {
+	        throw new WorldNotLoadedException(this.worldID);
+	    }
+	 }
 	
-	public String getPermission(){
-		return permissionBase + this.getName().replaceAll(" ", "");
+	public String getPermission() {
+		return PERMISSION_BASE + this.getName().replaceAll(" ", "");
 	}
 	
-	public boolean isInside(final Block block){
-		if(!block.getWorld().getUID().toString().equals(this.worldID.toString()))
-        {
+	/**Checks if block is inside border
+	 * 
+	 * @param Block 		Block you want to check
+	 * @return				True if block is inside, false otherwise
+	 */
+	public boolean isInside(Block block) {
+		if (!block.getWorld().getUID().toString().equals(this.worldID.toString())) {
             return false;
         }
-    	final Vector2D position = new Vector2D(block.getX(), block.getZ());
-        return position.isInAB(this.loc1, this.loc2);
+    	Vector position = new Vector(block.getX(), 0, block.getZ());
+        return isContained(position);
 	}
 	
-	public boolean isInside(final int x, final int z){
-		final Vector2D position = new Vector2D(x, z);
-        return position.isInAB(this.loc1, this.loc2);
+	/**Checks if the coordinate is inside border
+	 * 
+	 * @param x 		x-position
+	 * @param y			y-position
+	 * @return			True if coordinate is inside, false otherwise
+	 */
+	public boolean isInside(int x, int z) {
+		Vector position = new Vector(x, 0, z);
+        return isContained(position);
 	}
 	
-	public boolean isInside(Location loc){
-		 if(!loc.getWorld().getUID().toString().equals(this.worldID.toString())){
+	/**Checks if location is inside border
+	 * 
+	 * @param location	 	Location you want to check
+	 * @return				True if location is inside, false otherwise
+	 */
+	public boolean isInside(Location location) {
+		 if (!location.getWorld().getUID().toString().equals(this.worldID.toString())) {
 			 return false;
 		 }
-		 final Vector2D position = new Vector2D(loc.getX(), loc.getZ());
-		 return position.isInAB(this.loc1, this.loc2);
+		 Vector position = new Vector(location.getX(), 0, location.getZ());
+		 return isContained(position);
 	}
 	
-	public boolean isInside(Player p){
-		if(!p.getWorld().getUID().equals(this.worldID)){
+	/**Checks if player is inside border
+	 * 
+	 * @param player 		Player you want to check
+	 * @return				True if player is inside, false otherwise
+	 */
+	public boolean isInside(Player player) {
+		if (!player.getWorld().getUID().equals(worldID)) {
 			return false;
 		}
-		return this.isInside(p.getLocation());
-		
+		return this.isInside(player.getLocation());
 	}
 	
-	public boolean allowedInside(Player p){
-		if(p.hasPermission(permissionBase + this.name)){
-			return true;
-		}
-		return false;
+	/**Checks if player has permission to be inside border
+	 * 
+	 * @param player 		Player you want to check
+	 * @return				True if player has permission, false otherwise
+	 */
+	public boolean allowedInside(Player player) {
+		return player.hasPermission(PERMISSION_BASE + name);
 	}
+	
+	/**Checks if vector is contained been loc1 and loc2 in the xz-plane
+	 * 
+	 * @param position 		Vector you wish to check if it is contained between loc1 and loc2
+	 * @return				True if vector is contained, false otherwise
+	 */
+	private boolean isContained(Vector position) {
+        return position.getX() >= this.loc1.getX() && position.getX() <= this.loc2.getX() && position.getZ() >= this.loc1.getZ() && position.getZ() <= this.loc2.getZ();
+    }
+	
+	/**Gives a colorful description of the specified vector
+	 * 
+	 * @param vector 		Vector you want a description of
+	 * @return				A string description of specified vector
+	 */
+	static private String getColoredString(Vector vector) {
+		return ChatColor.GREEN.toString() + vector.getX() + ChatColor.GRAY + ", " + ChatColor.GREEN + vector.getZ();
+	}
+	
+	/**Gives a colorful description of the border
+	 * 
+	 * @return				A string description of the border
+	 */
+	public String toColoredString() {
+        return ChatColor.GREEN + name + ChatColor.GRAY + ":(" + getColoredString(this.loc1) + ChatColor.GRAY +
+               ")(" + getColoredString(this.loc2) + ChatColor.GRAY + ") in the world " + ChatColor.GREEN  + Bukkit.getWorld(worldID).getName();      
+    }
 	
 	@Override
     public String toString() {
         return name + ":(" + this.loc1 +")(" + this.loc2 + ") in the world " + Bukkit.getWorld(worldID).getName();      
     }
-
-    public String toColoredString() {
-        return ChatColor.GREEN + name + ChatColor.GRAY + ":(" + this.loc1.toColoredString() + ChatColor.GRAY +
-                ")(" + this.loc2.toColoredString() + ChatColor.GRAY + ") in the world " + ChatColor.GREEN  + Bukkit.getWorld(worldID).getName();      
-    }
 }
+

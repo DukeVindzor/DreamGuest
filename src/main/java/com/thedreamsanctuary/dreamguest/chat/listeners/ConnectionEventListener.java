@@ -11,69 +11,43 @@ import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 import com.thedreamsanctuary.dreamguest.util.MessageFormatter;
 
-public class ConnectionEventListener implements Listener{
+public class ConnectionEventListener implements Listener {
 	private final DreamGuest pl;
 	
-	public ConnectionEventListener(DreamGuest pl){
+	public ConnectionEventListener(DreamGuest pl) {
 		this.pl = pl;
 	}
-	/**
-     * Handles player join events.
+	
+	/**Handles player join events
      *
-     * @param event The Bukkit event.
+     * @param event		 A PlayerJoinEvent
      */
     @EventHandler
-    public void onPlayerJoin(final PlayerJoinEvent event)
-    {
-        final Player player = event.getPlayer();
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
         event.setJoinMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("join-message"), player));
-        if (isFakeQuit(player))
-        {
-            event.setJoinMessage("");
-        }
         VanishFakeQuitHandler.handleJoin(player);
     }
 
-    /**
-     * Handles player quit events.
+    /**Handles player quit events
      *
-     * @param event The Bukkit event.
+     * @param event		A PlayerQuitEvent
      */
     @EventHandler
-    public void onPlayerQuit(final PlayerQuitEvent event)
-    {
-    	final Player player = event.getPlayer();
-
+    public void onPlayerQuit(PlayerQuitEvent event) {
+    	Player player = event.getPlayer();
         event.setQuitMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("leave-message"), player));
-        if (isFakeQuit(player))
-        {
-            event.setQuitMessage("");
-        }
         VanishFakeQuitHandler.handleLeave(player);
     }
 
-    /**
-     * Handles player kick events.
-     *
-     * @param event The Bukkit event.
+    /**Handles player kick events
+     * 
+     * @param event		A PlayerKickEvent
      */
     @EventHandler
-    public void onPlayerKick(final PlayerKickEvent event)
-    {
-    	final Player player = event.getPlayer();
-
+    public void onPlayerKick(PlayerKickEvent event) {
+    	Player player = event.getPlayer();
         event.setLeaveMessage(MessageFormatter.formatJoinLeaveMessage(pl.getConfig().getString("kick-message"), player));
-        if (isFakeQuit(player))
-        {
-            event.setLeaveMessage("");
-        }
         VanishFakeQuitHandler.handleLeave(player);
     }
-    
-    private boolean isFakeQuit(Player p){
-		if(!pl.isInstalled("com.thedreamsanctuary.dreamguest.admin.AdminModule.class")){
-			return false;
-		}
-		return VanishFakeQuitHandler.isFakeQuit(p);
-	}
 }

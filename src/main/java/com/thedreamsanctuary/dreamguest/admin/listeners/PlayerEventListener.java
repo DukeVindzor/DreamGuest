@@ -8,52 +8,36 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import com.thedreamsanctuary.dreamguest.admin.handlers.VanishFakeQuitHandler;
 
-public class PlayerEventListener implements Listener{
-	/**
-     * Handles entity target events.
+public class PlayerEventListener implements Listener {
+	
+	/**Handles entity target events
      *
-     * @param event The Bukkit event.
+     * @param event 	An EntityTargetEvent
      */
     @EventHandler
-    public void onEntityTarget(final EntityTargetEvent event)
-    {
-        if (event.getTarget() != null)
-        {
-            if (event.getTarget() instanceof Player)
-            {
-                final Player player = (Player) event.getTarget();
-                if (VanishFakeQuitHandler.isVanished(player))
-                {
+    public void onEntityTarget(final EntityTargetEvent event) {
+        if (event.getTarget() != null) {
+            if (event.getTarget() instanceof Player) {
+                Player player = (Player) event.getTarget();
+                if (VanishFakeQuitHandler.isVanished(player)) {
                     event.setCancelled(true);
                     return;
-                }
-                if (VanishFakeQuitHandler.isFakeQuit(player))
-                {
-                    event.setCancelled(true);
                 }
             }
         }
     }
     
-    /**
-     * Handles player item pickup events.
-     *
-     * @param event The Bukkit event.
+    /**Handles player item pickup events
+     * 
+     * @param event 		A PlayerPickupItemEvent
      */
     @EventHandler
-    public void onPlayerPickupItem(final PlayerPickupItemEvent event)
-    {
-        if (event.getPlayer() != null)
-        {
-            final Player player = event.getPlayer();
-            if (VanishFakeQuitHandler.isVanished(player))
-            {
+    public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+        if (event.getPlayer() != null) {
+            Player player = event.getPlayer();
+            if (VanishFakeQuitHandler.isVanished(player)) {
                 event.setCancelled(true);
                 return;
-            }
-            if (VanishFakeQuitHandler.isFakeQuit(player))
-            {
-                event.setCancelled(true);
             }
         }
     }

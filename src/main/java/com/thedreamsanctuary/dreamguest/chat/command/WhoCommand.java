@@ -20,10 +20,10 @@ import com.thedreamsanctuary.dreamguest.chat.handlers.AfkHandler;
 import com.thedreamsanctuary.dreamguest.chat.handlers.PermissionHandler;
 import com.thedreamsanctuary.dreamguest.CommandHandler;
 
-public class WhoCommand extends CommandHandler{
-	ChatModule m;
-	public WhoCommand(ChatModule m) {
-		super(m);
+public class WhoCommand extends CommandHandler {
+	
+	public WhoCommand(ChatModule module) {
+		super(module);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -36,7 +36,7 @@ public class WhoCommand extends CommandHandler{
 		sender.sendMessage(getLegend(canSeeFQ));
 		
 		//iterate through the groupmap
-		for(Entry<PermissionGroup, List<Player>> entry : groupMap.entrySet()){
+		for(Entry<PermissionGroup, List<Player>> entry : groupMap.entrySet()) {
 			final PermissionGroup group = entry.getKey();
 			final String groupName = group.getName();
 			final StringBuilder groupStrBuilder = new StringBuilder();
@@ -45,31 +45,18 @@ public class WhoCommand extends CommandHandler{
 			boolean previous = false; //whether there is a previous entry for this group already appended
 			boolean comma = false; //whether a comma has been prepended
 			//iterate through players in the current group
-			for(Player player : entry.getValue()){
+			for (Player player : entry.getValue()) {
 				comma = false;
-				//if player is fakequit
-				if(AdminConnector.isFakeQuit(player)){
-					//if commandsender can't see fakequit people, skip this player
-					if(!canSeeFQ){
-						continue;
-					}
-					//if there is a previous entry AND no comma has been prepended yet, prepend comma now
-					if(previous && !comma){
-						groupStrBuilder.append(ChatColor.GOLD).append(", ");
-						comma = true;
-					}
-					//prepend [FQ] to fakequit player
-					groupStrBuilder.append(ChatColor.DARK_GRAY).append("[").append(ChatColor.AQUA).append("FQ").append(ChatColor.DARK_GRAY).append("] ");
-				}
 				//if there is a previous entry AND no comma has been prepended yet, prepend comma now
-				if(previous && !comma){
+				if (previous && !comma) {
 					groupStrBuilder.append(ChatColor.GOLD).append(", ");
 					comma = true;
 				}
 				//if player is afk, append name in gray, otherwise in white
-				if(AfkHandler.isAFK(player)){
+				if (AfkHandler.isAFK(player)) {
 					groupStrBuilder.append(ChatColor.GRAY).append(player.getDisplayName());
-				}else{
+				}
+				else {
 					groupStrBuilder.append(ChatColor.WHITE).append(player.getDisplayName());
 				}
 				//set previous to true, since now there is already at least on entry in this group
@@ -82,28 +69,22 @@ public class WhoCommand extends CommandHandler{
 		return true;
 	}
 	
-	/**
-	 * gets the /who legend / header.
-	 * @param canSeeFQ whether to include fakequit players or not
-	 * @return a String listing all groups with amount of players and colour code
+	/**Gets the /who legend / header
+	 * 
+	 * @param canSeeFQ 			Whether to include fakequit players or not
+	 * @return 					A String listing all groups with amount of players and colour code
 	 */
-	private String getLegend(boolean canSeeFQ){
+	private String getLegend(boolean canSeeFQ) {
 		final TreeMap<PermissionGroup, Integer> groupCount = new TreeMap<PermissionGroup, Integer>();
 		//get a list of all groups and sort them by weight
 		TreeSet<PermissionGroup> groups = PermissionHandler.getGroups();
 		//iterate through groups
-		for(PermissionGroup group : groups){
+		for (PermissionGroup group : groups) {
 			groupCount.put(group, 0);
 			//iterate through online players
-			for(Player player : Bukkit.getOnlinePlayers()){
-				//if the player is fakequit, skip if canSeeFQ equals false
-				if(AdminConnector.isFakeQuit(player)){
-					if(!canSeeFQ){
-						continue;
-					}
-				}
+			for (Player player : Bukkit.getOnlinePlayers()) {
 				//check if the current player's primary group is the currently selected group
-				if(PermissionHandler.getPlayerGroup(player).equals(group)){
+				if (PermissionHandler.getPlayerGroup(player).equals(group)) {
 					//if so, increase player count for currently selected group by one
 					groupCount.put(group, groupCount.get(group)+1);
 				}
@@ -111,7 +92,7 @@ public class WhoCommand extends CommandHandler{
 		}
 		final StringBuilder stringBuilder = new StringBuilder();
 		//iterate through sorted grouplist
-		for(PermissionGroup group : groupCount.keySet()){
+		for (PermissionGroup group : groupCount.keySet()) {
 			//get amount of players (including FQ players if canSeeFQ is set to true)
 			final int groupSize = groupCount.get(group);
 			final char groupChar = this.getGroupChar(group.getName());
@@ -120,27 +101,28 @@ public class WhoCommand extends CommandHandler{
 			
 		}
 		//get total to the user visible online players
-		final int onlinePlayers = canSeeFQ ? Bukkit.getOnlinePlayers().size() : Bukkit.getOnlinePlayers().size() - AdminConnector.getFakeQuitSize();
+		final int onlinePlayers = canSeeFQ ? Bukkit.getOnlinePlayers().size() : Bukkit.getOnlinePlayers().size();
 		//append "Overall" character
 		stringBuilder.append(ChatColor.DARK_GRAY).append("(").append(ChatColor.WHITE).append("O:").append(onlinePlayers).append(ChatColor.DARK_GRAY).append(")");
 		//return finished legend
 		return stringBuilder.toString();
 	}
-	/**
-	 * Generates the group char for a group
-	 * @param groupName the name of the group as String
-	 * @return the char to use for the group
+	
+	/**Generates the group char for a group
+	 * 
+	 * @param groupName		Name of the group as String
+	 * @return 				The char to use for the group
 	 */
-	private char getGroupChar(final String groupName){
+	private char getGroupChar(final String groupName) {
 		return groupName.toUpperCase().charAt(0);
 	}
 	
-	/**
-	 * Generate the colour to use for a group in the legend
-	 * @param group the group to retrieve the colour of
-	 * @return the ChatColor String of the group's colour
+	/**Generate the colour to use for a group in the legend
+	 * 
+	 * @param group			Group to retrieve the colour of
+	 * @return 				The ChatColor String of the group's colour
 	 */
-	private String getColor(PermissionGroup group){
+	private String getColor(PermissionGroup group) {
 		//get colour code from group option
 		String option = group.getOption("dreamguest.who.colour");
 		//convert colour code to ChatColor or use white if no option was present
@@ -148,44 +130,33 @@ public class WhoCommand extends CommandHandler{
 		return colour;
 	}
 	
-	/**
-	 * Create a map of all online players sorted by group
-	 * @param canSeeFQ whether to include FakeQuit players or not
-	 * @return a sorted TreeMap of groups
+	/**Create a map of all online players sorted by group
+	 * 
+	 * @param canSeeFQ 			Whether to include FakeQuit players or not
+	 * @return a sorted 		TreeMap of groups
 	 */
-	private TreeMap<PermissionGroup, List<Player>> createGroupMap(final boolean canSeeFQ){
+	private TreeMap<PermissionGroup, List<Player>> createGroupMap(final boolean canSeeFQ) {
 		final TreeMap<PermissionGroup, List<Player>> groupPlayerMap = new TreeMap<PermissionGroup, List<Player>>();
 		//iterate through list of all online players
-		for(Player player : Bukkit.getOnlinePlayers()){
+		for (Player player : Bukkit.getOnlinePlayers()) {
 			//get current player's primary group
 			final PermissionGroup group = PermissionHandler.getPlayerGroup(player);
 			//check if current main group is already present in group
-			if(!groupPlayerMap.containsKey(group)){
+			if (!groupPlayerMap.containsKey(group)) {
 				//if not, create new player ArrayList for current group
 				final List<Player> newGroupList = new ArrayList<Player>();
 				//if current player is fakequit, only include if canSeeFQ is set to true
-				if(AdminConnector.isFakeQuit(player)){
-					if(!canSeeFQ){
-						continue;
-					}
-				}
 				//add player to ArrayList
 				newGroupList.add(player);
 				//add the ArrayList into the GroupMap
 				groupPlayerMap.put(group, newGroupList);
 			//group entry already exists
-			}else{
-				//if current player is fakequit, only include if canSeeFQ is set to true
-				if(AdminConnector.isFakeQuit(player)){
-					if(!canSeeFQ){
-						continue;
-					}
-				}
+			}
+			else {
 				//add player to current group's player list in the GroupMap
 				groupPlayerMap.get(group).add(player);
 			}
 		}
 		return groupPlayerMap;
 	}
-
 }

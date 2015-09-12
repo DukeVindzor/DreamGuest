@@ -11,61 +11,68 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-
-
-
 
 import com.google.gson.Gson;
 import com.thedreamsanctuary.dreamguest.DreamGuest;
 import com.thedreamsanctuary.dreamguest.border.Border;
 
 public class BorderHandler {
-	private static final File BORDER_FILE = new File("plugins/DreamGuest/borders.json");
+	public static final File BORDER_FILE = new File("plugins/DreamGuest/borders.json");
 	private static Set<Border> borders = new HashSet<Border>();
 	private static Set<UUID> worlds = new HashSet<UUID>();
 	private static DreamGuest plugin;
 	
+	/**Initiates the handler and import borders from file
+	 * 
+	 * @param pl 	DreamGuest plugin
+	 */
 	public static void init(DreamGuest pl){
 		plugin = pl;
 		final File borderFolder = new File("plugins/DreamGuest/");
-		if(!borderFolder.exists()){
+		if (!borderFolder.exists()) {
 			borderFolder.mkdirs();
 		}
 		readBorders(BORDER_FILE);
 	}
 	
-	public static boolean addBorder(Border b){
-		for(Border border : borders){
-			if(border.getName().equalsIgnoreCase(b.getName())){
+	/**Adds the border to both file and plugin storage if border does not already exist
+	 * 
+	 * @param border 		Border you  wish to save
+	 * @return 				True if border was successfully added, false otherwise
+	 */
+	public static boolean addBorder(Border border) {
+		for (Border savedBorder : borders) {
+			if (savedBorder.getName().equalsIgnoreCase(border.getName())) {
 				return false;
 			}
 		}
-		worlds.add(b.getWorldID());
-		boolean success = borders.add(b);
-		if(success){
-			saveBorders(getBorderFile());
+		worlds.add(border.getWorldID());
+		if (borders.add(border)) {
+			saveBorders(BORDER_FILE);
 			return true;
 		}
 		return false;
 	}
 	
-	
-	public static Border getBorder(String name){
-		for (final Border b : borders)
-        {
-            if (b.getName().equalsIgnoreCase(name))
-            {
+	/**Gives border with specified name
+	 * 
+	 * @param name 			Name of border
+	 * @return 				The requested border, null otherwise
+	 */
+	public static Border getBorder(String name) {
+		for (Border b : borders) {
+            if (b.getName().equalsIgnoreCase(name)) {
                 return b;
             }
         }
         return null;
 	}
 	
+	/**Update which worlds are currently having borders
+	 */
 	private static void updateActiveWorlds() {
 	        worlds.clear();
 	        for (Border b : borders) {
@@ -73,169 +80,151 @@ public class BorderHandler {
 	        }
 	    }
 	
-	public static boolean removeBorder(final Border oldBorder)
-    {
-        final boolean success = borders.remove(oldBorder);
+	/**Removes a border and updates worlds
+	 * 
+	 * @param oldBorder 	Border you wish to remove
+	 * @return 				True if removal was successful, false otherwise
+	 */
+	public static boolean removeBorder(Border oldBorder) {
+        boolean success = borders.remove(oldBorder);
         updateActiveWorlds();
         return success;
     }
 	
+	/**Gives you an array of names of all borders
+	 * 
+	 * @return 				String array with names of borders
+	 */
 	public static String[] getBorders() {
-        final List<String> borderTxt = new ArrayList<String>();
-        for (Border border : borders)
-        {
+        List<String> borderTxt = new ArrayList<String>();
+        for (Border border : borders) {
             borderTxt.add(border.toColoredString());
         }
         Collections.sort(borderTxt);
-        if(borderTxt.isEmpty()){
+        if (borderTxt.isEmpty()) {
         	borderTxt.add(ChatColor.GRAY + "No zones active.");
         }
         return borderTxt.toArray(new String[0]);
     }
 	
-	public static boolean canMoveTo(final Player player, final Location startLoc, final Location endLoc){
-		if (endLoc == null){
+	/**Checks if player can move from startLoc to endLoc
+	 * 
+	 * @return 				True if player can pass, false otherwise
+	 */
+	public static boolean canMoveTo( Player player, Location startLoc, Location endLoc) {
+		if (endLoc == null) {
 			plugin.getLogger().severe("A move event reported a null destination location!");
 	    	return true;
 	    }
-	    if (endLoc.getWorld() == null){
+	    if (endLoc.getWorld() == null) {
 	    	plugin.getLogger().severe("A move event reported a null destination world!");
 	    	return true;
 	    }
-	    if(!worlds.contains(endLoc.getWorld().getUID())){
+	    if (!worlds.contains(endLoc.getWorld().getUID())) {
 	    	return true;
 	    }
 	    
 	    boolean canEnter = true;
 	    boolean inZone = false;
-	    
-	    for(final Border b : borders){
-	    	if(b.getWorldID().equals(endLoc.getWorld().getUID())){	    		
-	    		if(b.isInside(endLoc)){
-	    			inZone = true;
-	    			if(b.isInside(startLoc)){
-	    				if(canEnter){
-	    					continue;
-	    				}	
+	    for (Border b : borders) {
+	    	if (b.getWorldID().equals(endLoc.getWorld().getUID()) && b.isInside(endLoc)) {	    		
+	    		inZone = true;
+	    		if (b.isInside(startLoc)) {
+	    			if (canEnter) {
+	    				continue;
+	    			}	
+	    		}
+	    		if (player.hasPermission(b.getPermission())) {
+	    			if (canEnter) {
+	    				player.sendMessage(ChatColor.GRAY + "Now crossing border of " + ChatColor.GREEN + b.getName().trim());
+	    				continue;
 	    			}
-	    			if(player.hasPermission(b.getPermission())){
-	    				if(canEnter){
-	    					player.sendMessage(ChatColor.GRAY + "Now crossing border of " + ChatColor.GREEN + b.getName().trim());
-	    					continue;
-	    				}
-	    			}else{
-	    				player.sendMessage(ChatColor.GRAY + "You can not cross the border of " + ChatColor.GREEN + b.getName().trim());
-                    	canEnter = false;
-                    	break;
-	    			}
+	    		}
+	    		else {
+	    			player.sendMessage(ChatColor.GRAY + "You can not cross the border of " + ChatColor.GREEN + b.getName().trim());
+                   	canEnter = false;
+                   	break;
 	    		}
 	    	}
 	    }
-	    
-	    if(inZone){
+	    if (inZone) {
 	    	return canEnter;
 	    }
 	    player.sendMessage(ChatColor.GRAY + "You can not access area outside of the the borders");
         return false;
 	}
 	
-	public static void readBorders(final File borderFile)
-    {
-        final Gson gson = new Gson();
-        if (borderFile.exists())
-        {
+	/**Read borders from Json file
+	 * 
+	 * @param borderFile 		File containing borders
+	 */
+	public static void readBorders(File borderFile) {
+        Gson gson = new Gson();
+        if (borderFile.exists()) {
             Scanner scan;
-            try
-            {
+            try {
                 scan = new Scanner(borderFile);
             }
-            catch (final Exception e)
-            {
+            catch (Exception e) {
                 plugin.getLogger().severe("Can not open config files");
                 e.printStackTrace();
                 return;
             }
-            try
-            {
-                while (scan.hasNextLine())
-                {
-                    final Border border = gson.fromJson(scan.nextLine(), Border.class);
+            try {
+                while (scan.hasNextLine()) {
+                    Border border = gson.fromJson(scan.nextLine(), Border.class);
                     addBorder(border);
                 }
             }
-            catch (final Exception e)
-            {
+            catch (Exception e) {
                 plugin.getLogger().severe("Can not read config files");
                 e.printStackTrace();
                 return;
             }
-            finally
-            {
+            finally {
                 scan.close();
             }
         }
-        else
-        {
-
-        }
     }
-
-    public static void saveBorders(final File borderfile)
-    {
-    	Plugin plugin = Bukkit.getPluginManager().getPlugin("DreamGuest"); 
-        final Gson gson = new Gson();
-        if (!borderfile.exists())
-        {
-            try
-            {
+	
+	/**Save border to Json file
+	 * 
+	 * @param borderFile 		File you wish to save borders to
+	 */
+    public static void saveBorders(File borderfile) {
+        Gson gson = new Gson();
+        if (!borderfile.exists()) {
+            try {
                 borderfile.createNewFile();
             }
-            catch (final IOException e)
-            {
+            catch (IOException e) {
                 e.printStackTrace();
                 return;
             }
         }
-        else
-        {
-            if (!borderfile.delete())
-            {
+        else {
+            if (!borderfile.delete()) {
                 plugin.getLogger().severe("Can not save config files");
             }
-            try
-            {
+            try {
                 borderfile.createNewFile();
             }
-            catch (final IOException e)
-            {
+            catch (IOException e) {
                 e.printStackTrace();
                 return;
             }
         }
         PrintWriter pw;
-        try
-        {
+        try {
             pw = new PrintWriter(borderfile);
         }
-        catch (final Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
             return;
         }
-        for (final Border b : borders)
-        {
+        for (Border b : borders) {
                 pw.println(gson.toJson(b));
         }
         pw.close();
-    }
-
-    /**
-     * Gets the file that hold saved zones.
-     *
-     * @return Zone saves file
-     */
-    public static File getBorderFile()
-    {
-        return BORDER_FILE;
     }
 }

@@ -6,7 +6,7 @@ import com.thedreamsanctuary.dreamguest.border.command.DBorderCommand;
 import com.thedreamsanctuary.dreamguest.border.handlers.BorderHandler;
 import com.thedreamsanctuary.dreamguest.border.listeners.BorderListener;
 
-public class BorderModule extends Module{
+public class BorderModule extends Module {
 	
 	public BorderModule(final DreamGuest pl) {
 		super(pl);
@@ -14,7 +14,7 @@ public class BorderModule extends Module{
 	
 	@Override
 	public void disable() {
-		BorderHandler.saveBorders(BorderHandler.getBorderFile());
+		BorderHandler.saveBorders(BorderHandler.BORDER_FILE);
 	}
 
 	@Override
@@ -23,6 +23,4 @@ public class BorderModule extends Module{
 		addCommand("dborder", new DBorderCommand(this));
 		addListener(new BorderListener());
 	}
-
-
 }
